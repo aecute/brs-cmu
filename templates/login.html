@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>BUS RESERVATION SYSTEM LOGIN!!!</h1>
+<hr>
+
+<form action="" method="post">{% csrf_token %}
+
+	{{ form|crispy }}
+
+<input type='submit' value='Login' class="btn btn-primary"></input>
+<a  class="btn btn-primary" href="/register" >Register</a>
+</form>
+
+<hr>
+
+
+{% endblock %}
