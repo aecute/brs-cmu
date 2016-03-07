@@ -134,10 +134,10 @@ STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# STATIC_URL = '/static/'
-# STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
 # )
