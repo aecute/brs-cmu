@@ -21,3 +21,8 @@ urlpatterns = [
     url(r'^posts/', include("posts.urls")),
     url(r'^', include("person.urls")),
 ]
+
+if not settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    )
