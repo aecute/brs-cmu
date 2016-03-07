@@ -82,17 +82,17 @@ WSGI_APPLICATION = 'brs.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'brs',
-        'USER': 'brs',
-        'PASSWORD': 'brsdatabase',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': 'df4l0lpdl0u1h7',
+        'USER': 'buzchjwpukiinc',
+        'PASSWORD': 'DI7XGXLhWToVoEa-N2co782Xtx',
+        'HOST': 'ec2-54-83-56-31.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
-import dj_database_url
+# import dj_database_url
 
-DATABASES['default'] = dj_database_url.config()
+# DATABASES['default'] = dj_database_url.config()
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -134,10 +134,10 @@ STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-STATIC_URL = '/static/'
-STATIC_ROOT = 'staticfiles'
+# STATIC_URL = '/static/'
+# STATIC_ROOT = 'staticfiles'
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
 # )
