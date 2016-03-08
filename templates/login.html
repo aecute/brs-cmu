@@ -2,18 +2,37 @@
 
 {% load crispy_forms_tags %}
 
+{% block title %}Login | {{ block.super }} {% endblock %}
+
+
+<style>
+      {% block style %} 
+        body {
+          background-color: #eee  ;
+        }
+      {% endblock %}
+</style>
+
+
 {% block content %}
 
-<h1>BUS RESERVATION SYSTEM LOGIN!!!</h1>
-<hr>
 
-<form action="" method="post">{% csrf_token %}
+<div class="row">
+	<div class="col-md-4"></div>
+	<div class="col-md-4">
+		<h2 class="form-signin-heading">Please sign in</h2>
+		<form action="" method="post" class="form-signin">{% csrf_token %}
 
-	{{ form|crispy }}
+			{{ form|crispy }}
 
-<input type='submit' value='Login' class="btn btn-primary"></input>
-<a  class="btn btn-primary" href="/register" >Register</a>
-</form>
+		<input type='submit' value='Login' class="btn btn-primary  btn-block"></input>
+		<a  class="btn btn-primary  btn-block" href="/register" >Register</a>
+		</form>
+	</div>
+	<div class="col-md-4"></div>
+</div>
+
+
 
 <hr>
 
