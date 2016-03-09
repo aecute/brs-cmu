@@ -7,29 +7,29 @@ class Bus_companyMode(admin.ModelAdmin):
 	list_display = ["name", "amount_of_bus"]
 	#list_display_links = ["name", "id_bus", "origin", "destination"]
 	#list_editable = ["title"]
-	list_filter = ["name"]
+	#list_filter = ["name"]
 
-	search_fields = ["name"]
+	#search_fields = ["name"]
 	class Meta:
 		model = Bus_company
 
 class Bus_Mode(admin.ModelAdmin):
-	list_display = ["id_bus", "color", "seat"]
+	list_display = ["bus_id", "color", "seat"]
 	#list_display_links = ["id_bus", "color", "seat"]
 	#list_editable = ["title"]
-	list_filter = ["id_bus"]
+	#list_filter = ["bus_id"]
 
-	search_fields = ["id_bus"]
+	#search_fields = ["bus_id"]
 	class Meta:
 		model = Bus
 
 class Bus_scheduleMode(admin.ModelAdmin):
-	list_display = ["company_name", "id_bus", "origin", "destination", "platform", "date", "price"]
-	list_display_links = ["company_name", "id_bus", "origin", "destination"]
+	list_display = ["company_name", "bus_id", "origin", "destination", "platform", "date", "price"]
+	list_display_links = ["company_name", "bus_id", "origin", "destination"]
 	#list_editable = ["title"]
-	list_filter = ["date"]
+	#list_filter = ["date"]
 
-	search_fields = ["origin", "destination"]
+	#search_fields = ["origin", "destination"]
 	class Meta:
 		model = Bus_schedule
 

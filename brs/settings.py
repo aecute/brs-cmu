@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bus',
     'person',
-    'posts',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -89,6 +88,17 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'brs',
+#         'USER': 'brs',
+#         'PASSWORD': 'brsdatabase',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 # import dj_database_url
 
