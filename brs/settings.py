@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+AUTH_PROFILE_MODULE = 'passenger.Passenger'
 # Application definition
 
 INSTALLED_APPS = [

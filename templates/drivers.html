@@ -16,8 +16,8 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="/">Bus Schedule</a></li>
-            <li  class="active"><a href="#">Reservation</a></li>
-            <li><a href="/drivers">Drivers License Status</a></li>
+            <li><a href="/reservation">Reservation</a></li>
+            <li class="active"><a href="#">Drivers License Status</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -37,37 +37,44 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-      <br><br><br>
-      <p>RESERVATION</p>
-      <!-- {{ bus_schedules }} -->
-<!--       <table  class="table table-hover">
+      <br><br>
+      <h2>Drivers</h2>
+      <!-- {{ drivers.exists }} -->
+     
+      {% if drivers.exists == False %}
+
+      <p>No Driver</p>
+
+      {% else %}
+
+      <table  class="table table-hover">
         <tr>
-          <th>Company Name</th>
-          <th>Bus ID</th>
-          <th>Origin</th>
-          <th>Destination</th>
-          <th>Platform</th>
-          <th>Date</th>
-          <th>Price</th>
+          <th>Identification Number</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>License</th>
+          <th>Experience</th>
+          <th>Driver in bus id</th>
         </tr>
 
-        {% for bus_schedule in bus_schedules %}
+        {% for driver in drivers %}
 
         <tr>
-          <td> {{ bus_schedule.company_name }} </td>
-          <td> {{ bus_schedule.bus_id }} </td>
-          <td> {{ bus_schedule.origin }} </td>
-          <td> {{ bus_schedule.destination }} </td>
-          <td> {{ bus_schedule.platform }} </td>
-          <td>  {{ bus_schedule.date }} </td>
-          <td> {{ bus_schedule.price }} </td>
+          <td> {{ driver.idetification_number }} </td>
+          <td> {{ driver.name }} </td>
+          <td> {{ driver.gender }} </td>
+          <td> {{ driver.date_of_birth }} </td>
+          <td>  {{ driver.license }} </td>
+          <td> {{ driver.experience }} </td>
+          <td> {{ driver.bus_id }} </td>
         </tr>
 
         {% endfor %}
         
-      </table> -->
+      </table>
 
-
+      {% endif %}
 
 
       </div>
@@ -77,13 +84,13 @@
 {% endblock %}
 
 
-<!--   company_name = models.ForeignKey(Bus_company, default=1)
+<!-- class Driver(models.Model):
+  idetification_number = models.CharField(max_length=13, primary_key=True)
+  name = models.CharField(max_length=40)
+  gender = models.CharField(max_length=10)
+  date_of_birth = models.DateField()
+  license = models.CharField(max_length=20)
+  experience = models.IntegerField()
+
   bus_id = models.ForeignKey(Bus, default=1)
-  origin = models.CharField(max_length=40)
-  destination = models.CharField(max_length=40)
-  platform = models.CharField(max_length=40)
-  date = models.DateTimeField()
-  price = models.IntegerField()
-
  -->
-

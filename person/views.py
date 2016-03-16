@@ -1,48 +1,84 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-from .models import Passenger
-from .forms import LoginForm, RegisterForm
+from bus.models import Bus_schedule
+from .models import Passenger, Driver
+from .forms import LoginForm, UserForm, UserDetailForm
 
-def login(request):
-	users = Passenger.objects.all()
+@login_required(login_url='/login/')
+def home(request):
+	bus_schedules = Bus_schedule.objects.all()
+	context = {
+		"bus_schedules": bus_schedules,
+	}
+	return render(request, "home.html", context)
 
+@login_required(login_url='/login/')
+def reservation(request):
+	bus_schedules = Bus_schedule.objects.all()
+	context = {
+		"bus_schedules": bus_schedules,
+	}
+	return render(request, "reservation.html", context)
+
+@login_required(login_url='/login/')
+def drivers(request):
+	drivers = Driver.objects.all()
+	context = {
+		"drivers": drivers,
+	}
+	return render(request, "drivers.html", context)
+
+def register(request):
+
+	user_form = UserForm(request.POST or None)
+	detail_form = UserDetailForm(request.POST or None)
+
+	if user_form.is_valid() and detail_form.is_valid():
+		#save into database
+		user = user_form.save()
+		user.set_password(user.password)
+		user.save()
+
+		detail = detail_form.save(commit=False)
+		detail.user_id = user
+		detail.save()
+
+		return HttpResponseRedirect("/")
+
+	context = {
+		"user_form": user_form,
+		"detail_form": detail_form,
+	}
+	return render(request, "register.html", context)
+
+
+def login_view(request):
 	form = LoginForm(request.POST or None)
+		
 	if form.is_valid():
-		user_id = form.cleaned_data['user_id']
+
+		username = form.cleaned_data['user_id']
 		password = form.cleaned_data['password']
 
-		for user in users:
-			if(user.user_id == user_id and user.password == password):
-				print "user id : " + user_id + " had logined."
-				context = {
-					"user_id": user_id
-				}
-				return render(request, "reservation.html", context)
+		user = authenticate(username=username, password=password)
+		
+		if user is not None:
+			if user.is_active:
+				login(request, user)
+				return HttpResponseRedirect("/")
+
 		
 	context = {
 		"form": form
 	}
 	return render(request, "login.html", context)
 
-def register(request):
-	form = RegisterForm(request.POST or None)
-	if form.is_valid():
-		regis = form.save(commit=False)
-		regis.save()
-		return HttpResponseRedirect("/")
-
-
-	context = {
-		"form": form
-	}
-	return render(request, "register.html", context)
-
-def reservation(request):
-	user_id = "test"
-	context = {
-		"user_id": user_id
-	}
-	return render(request, "reservation.html", context)
+@login_required(login_url='/login/')
+def logout_view(request):
+	logout(request)
+	return HttpResponseRedirect("/")
 

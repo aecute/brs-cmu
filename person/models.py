@@ -1,31 +1,34 @@
 from __future__ import unicode_literals
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 from bus.models import Bus
 
 
 class Passenger(models.Model):
-	user_id = models.CharField(max_length=15, primary_key=True)
-	password = models.CharField(max_length=20)
-
-	idetification_number = models.CharField(max_length=13)
+	idetification_number = models.CharField(max_length=13, primary_key=True)
 	name = models.CharField(max_length=40)
 	gender = models.CharField(max_length=10)
 	date_of_birth = models.DateField()
+	contact = models.TextField()
+	address = models.TextField()
+
+	user_id = models.ForeignKey(User)
 
 	def __unicode__(self):
-		return self.name
+		return self.user_id.username
 
 
 class Driver(models.Model):
-	license = models.CharField(max_length=20, primary_key=True)
-	bus_id = models.ForeignKey(Bus, default=1)
-	idetification_number = models.CharField(max_length=13)
+	idetification_number = models.CharField(max_length=13, primary_key=True)
 	name = models.CharField(max_length=40)
 	gender = models.CharField(max_length=10)
 	date_of_birth = models.DateField()
+	license = models.CharField(max_length=20)
 	experience = models.IntegerField()
 
+	bus_id = models.ForeignKey(Bus, default=1)
+
 	def __unicode__(self):
-		return self.name
+		return self.idetification_number

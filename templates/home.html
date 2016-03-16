@@ -15,8 +15,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/">Bus Schedule</a></li>
-            <li  class="active"><a href="#">Reservation</a></li>
+            <li class="active"><a href="#">Bus Schedule</a></li>
+            <li><a href="/reservation">Reservation</a></li>
             <li><a href="/drivers">Drivers License Status</a></li>
           </ul>
 
@@ -37,35 +37,47 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-      <br><br><br>
-      <p>RESERVATION</p>
+      <br><br>
+      <h2>Bus Schedule</h2>
       <!-- {{ bus_schedules }} -->
-<!--       <table  class="table table-hover">
-        <tr>
-          <th>Company Name</th>
-          <th>Bus ID</th>
-          <th>Origin</th>
-          <th>Destination</th>
-          <th>Platform</th>
-          <th>Date</th>
-          <th>Price</th>
-        </tr>
+      {% if bus_schedules.exists == False %}
 
-        {% for bus_schedule in bus_schedules %}
+        <p>No Driver</p>
 
-        <tr>
-          <td> {{ bus_schedule.company_name }} </td>
-          <td> {{ bus_schedule.bus_id }} </td>
-          <td> {{ bus_schedule.origin }} </td>
-          <td> {{ bus_schedule.destination }} </td>
-          <td> {{ bus_schedule.platform }} </td>
-          <td>  {{ bus_schedule.date }} </td>
-          <td> {{ bus_schedule.price }} </td>
-        </tr>
+      {% else %}
 
-        {% endfor %}
+        <table  class="table table-hover">
+          <tr>
+            <th>Company Name</th>
+            <th>Bus ID</th>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Platform</th>
+            <th>Date</th>
+            <th>Price</th>
+          </tr>
+
+          {% for bus_schedule in bus_schedules %}
+
+          <tr>
+            <td> {{ bus_schedule.company_name }} </td>
+            <td> {{ bus_schedule.bus_id }} </td>
+            <td> {{ bus_schedule.origin }} </td>
+            <td> {{ bus_schedule.destination }} </td>
+            <td> {{ bus_schedule.platform }} </td>
+            <td>  {{ bus_schedule.date }} </td>
+            <td> {{ bus_schedule.price }} </td>
+          </tr>
+
+          {% endfor %}
+        </table>
+
+      {% endif %}
+
+
+     
         
-      </table> -->
+
 
 
 
