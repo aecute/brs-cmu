@@ -1,4 +1,20 @@
 {% extends "base.html" %}
+
+{% block title %}Driver | {{ block.super }} {% endblock %}
+
+<style>
+  {% block style %}
+  body
+  {
+      background: url(http://wallpaper.pickywallpapers.com/1920x1080/driving-in-the-rain.jpg) no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+  }
+  {% endblock %}
+</style>
+
 {% block content %}
 
     <!-- Fixed navbar -->
@@ -17,7 +33,7 @@
           <ul class="nav navbar-nav">
             <li><a href="/">Bus Schedule</a></li>
             <li><a href="/reservation">Reservation</a></li>
-            <li class="active"><a href="#">Drivers License Status</a></li>
+            <li class="active"><a href="#">Drivers Status</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -35,51 +51,54 @@
 
     <div class="container">
 
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-      <br><br>
-      <h2>Drivers</h2>
-      <!-- {{ drivers.exists }} -->
-     
-      {% if drivers.exists == False %}
+      <br><br><br><br><br><br>
 
-      <p>No Driver</p>
+      <div class="panel panel-danger">
+        <div class="panel-heading">Drivers Status</div>
+        <div class="panel-body">
 
-      {% else %}
+            {% if drivers.exists == False %}
 
-      <table  class="table table-hover">
-        <tr>
-          <th>Identification Number</th>
-          <th>Name</th>
-          <th>Gender</th>
-          <th>Age</th>
-          <th>License</th>
-          <th>Experience</th>
-          <th>Driver in bus id</th>
-        </tr>
+            <p>No Driver</p>
 
-        {% for driver in drivers %}
+            {% else %}
+            <div class="table-responsive"> 
+            <table  class="table table-hover">
+              <tr>
+                <th>Identification Number</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>License</th>
+                <th>Experience</th>
+                <th>Driver in bus id</th>
+              </tr>
 
-        <tr>
-          <td> {{ driver.idetification_number }} </td>
-          <td> {{ driver.name }} </td>
-          <td> {{ driver.gender }} </td>
-          <td> {{ driver.date_of_birth }} </td>
-          <td>  {{ driver.license }} </td>
-          <td> {{ driver.experience }} </td>
-          <td> {{ driver.bus_id }} </td>
-        </tr>
+              {% for driver in drivers %}
 
-        {% endfor %}
-        
-      </table>
+              <tr>
+                <td> {{ driver.idetification_number }} </td>
+                <td> {{ driver.name }} </td>
+                <td> {{ driver.gender }} </td>
+                <td> {{ driver.date_of_birth }} </td>
+                <td>  {{ driver.license }} </td>
+                <td> {{ driver.experience }} </td>
+                <td> {{ driver.bus_id }} </td>
+              </tr>
 
-      {% endif %}
+              {% endfor %}
+              
+            </table>
+            </div>
 
+            {% endif %}
 
+          
+        </div>
       </div>
 
     </div> 
+
 
 {% endblock %}
 

@@ -57,23 +57,25 @@ def register(request):
 
 
 def login_view(request):
+	validation = 1
 	form = LoginForm(request.POST or None)
 		
 	if form.is_valid():
+		validation = 0
 
 		username = form.cleaned_data['user_id']
 		password = form.cleaned_data['password']
 
 		user = authenticate(username=username, password=password)
-		
+
 		if user is not None:
 			if user.is_active:
 				login(request, user)
 				return HttpResponseRedirect("/")
 
-		
 	context = {
-		"form": form
+		"form": form,
+		"validation": validation,
 	}
 	return render(request, "login.html", context)
 

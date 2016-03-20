@@ -17,17 +17,35 @@
 {% block content %}
 
 
+<br><br><br>
 <div class="row">
 	<div class="col-md-4"></div>
+
 	<div class="col-md-4">
-		<h2 class="form-signin-heading">Please sign in</h2>
-		<form action="" method="post" class="form-signin">{% csrf_token %}
 
-			{{ form|crispy }}
+		<div class="panel panel-primary">
+		
+		      <div class="panel-heading">Please sign in</div>
+		      <div class="panel-body">
+		      
+					{% if validation == 0 %}
+					<div class="alert alert-danger">
+					  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					  <strong>Fail!</strong> The username or password you entered is incorrect.
+					</div>
+					{% endif %}
 
-		<input type='submit' value='Login' class="btn btn-primary  btn-block"></input>
-		<a  class="btn btn-primary  btn-block" href="/register" >Register</a>
-		</form>
+			      	<form action="" method="post" class="form-signin">{% csrf_token %}
+
+						{{ form|crispy }}
+
+					<input type='submit' value='Login' class="btn btn-primary  btn-block"></input>
+					<a  class="btn btn-primary  btn-block" href="/register" >Register</a>
+					</form>
+		      	
+		      </div>
+		</div>
+		
 	</div>
 	<div class="col-md-4"></div>
 </div>
