@@ -18,9 +18,12 @@ def home(request):
 
 @login_required(login_url='/login/')
 def reservation(request):
-	bus_schedules = Bus_schedule.objects.all()
+	origin = request.POST.get('origin', None) 
+	destination = request.POST.get('destination', None)
+
+	results = Bus_schedule.objects.filter(origin=origin, destination=destination)
 	context = {
-		"bus_schedules": bus_schedules,
+		"results": results,
 	}
 	return render(request, "reservation.html", context)
 
@@ -63,7 +66,7 @@ def login_view(request):
 	if form.is_valid():
 		validation = 0
 
-		username = form.cleaned_data['user_id']
+		username = form.cleaned_data['username']
 		password = form.cleaned_data['password']
 
 		user = authenticate(username=username, password=password)

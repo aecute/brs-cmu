@@ -5,8 +5,8 @@ from .models import Passenger
 
 
 class LoginForm(forms.Form):
-	user_id = forms.CharField(max_length=20)
-	password = forms.CharField(max_length=20, widget=forms.PasswordInput)
+	username = forms.CharField(max_length=30)
+	password = forms.CharField(max_length=30, widget=forms.PasswordInput)
 
 class UserForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput())

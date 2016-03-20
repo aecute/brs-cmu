@@ -64,10 +64,10 @@
 
               <div class="form-group">
                 <label for="origin">Origin:</label>
-                <input type="text" class="form-control" id="origin" placeholder="Enter origin">
+                <input type="text" class="form-control" name="origin" placeholder="Enter origin">
 
                 <label for="destination">Destination:</label>
-                <input type="text" class="form-control" id="destination" placeholder="Enter destination">
+                <input type="text" class="form-control" name="destination" placeholder="Enter destination">
               </div>
 
               <button type="submit" class="btn btn-default">Search</button>
@@ -85,7 +85,47 @@
 
       <div class="panel panel-primary">
         <div class="panel-heading">Result</div>
-        <div class="panel-body">Panel Content</div>
+        <div class="panel-body">
+
+          {% if results.exists == False %}
+
+            <div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Fail!</strong> Please enter search first or Not Found.
+            </div>
+
+          {% else %}
+            <div class="table-responsive"> 
+              <table  class="table table-hover">
+                <tr>
+                  <th>Company Name</th>
+                  <th>Bus ID</th>
+                  <th>Origin</th>
+                  <th>Destination</th>
+                  <th>Platform</th>
+                  <th>Date</th>
+                  <th>Price</th>
+                </tr>
+
+                {% for result in results %}
+
+                <tr>
+                  <td> {{ result.company_name }} </td>
+                  <td> {{ result.bus_id }} </td>
+                  <td> {{ result.origin }} </td>
+                  <td> {{ result.destination }} </td>
+                  <td> {{ result.platform }} </td>
+                  <td>  {{ result.date }} </td>
+                  <td> {{ result.price }} </td>
+                </tr>
+
+                {% endfor %}
+              </table>
+            </div>
+
+        {% endif %}
+          
+        </div>
       </div>
 
     </div> 

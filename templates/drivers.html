@@ -59,7 +59,10 @@
 
             {% if drivers.exists == False %}
 
-            <p>No Driver</p>
+            <div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Fail!</strong> Driver not found.
+            </div>
 
             {% else %}
             <div class="table-responsive"> 
