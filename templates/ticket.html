@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Buy Ticket | {{ block.super }} {% endblock %}
+
+<style>
+  {% block style %}
+  body
+  {
+      background: url(http://www.astratravel.co.za/images/World_Travel___Tourism_Plane_ticket_018982_.jpg) no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+  }
+
+  {% endblock %}
+</style>
+
+
+{% block content %}
+
+	<br><br><br>
+
+    <div class="container">
+
+    <div class="panel panel-success">
+      <div class="panel-heading">Buy Ticket | Bus Schedule Number = {{ id }}</div>
+      <div class="panel-body">
+
+      {% for p in path %}
+      <h3>Path</h3>
+      <div class="well">
+	      <p> Company Name : {{ p.company_name }} </p>
+	      <p> Bus Id : {{ p.bus_id }}  </p>
+	      <p> Origin : {{ p.origin }} </p>
+	      <p> Destination : {{ p.destination }} </p>
+	      <p> Platform : {{ p.platform }} </p>
+	      <p> Date : {{ p.date }} </p>
+	      <p> Price : {{ p.price }} </p>
+      </div>
+
+      {% endfor %}
+		
+		<h3>Profile's username : {{ user.username  }}</h3>
+       <div class="well"> 
+			{% for u in profile %}
+			<p> Idetification Number : {{ u.idetification_number }}</p>
+			<p> Name : {{ u.name }}</p>
+			<p> Gender : {{ u.gender }}</p>
+			<p> Date of birth : {{ u.date_of_birth }}</p>
+			<p> Contact : {{ u.contact }}</p>
+			<p> Address : {{ u.address }}</p>
+			{% endfor %}
+       </div>
+
+       </div>
+    </div>
+
+    </div>
+
+{% endblock %}

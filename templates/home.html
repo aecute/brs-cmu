@@ -42,7 +42,7 @@
             <li><a href="#">Welcome, {{ user.username }}</a></li>
             {% endif %}
 
-            <li><a href='{% url "logout" %}'>logout</a></li>
+            <li><a href='{% url "logout" %}'>Logout</a></li>
           </ul>
 
         </div><!--/.nav-collapse -->
@@ -57,15 +57,16 @@
         <div class="panel-heading">Bus Schedule</div>
         <div class="panel-body">
 
-          {% if bus_schedules.exists == False %}
+          {% if error == 0 %}
             <div class="alert alert-danger">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
               <strong>Fail!</strong> Bus schedule not found.
             </div>
           {% else %}
-          <div class="table-responsive"> 
+          <div class="table-responsive "> 
             <table  class="table table-hover">
               <tr>
+                <th>Number</th>
                 <th>Company Name</th>
                 <th>Bus ID</th>
                 <th>Origin</th>
@@ -78,6 +79,7 @@
               {% for bus_schedule in bus_schedules %}
 
               <tr>
+                <td> {{ bus_schedule.id }} </td>
                 <td> {{ bus_schedule.company_name }} </td>
                 <td> {{ bus_schedule.bus_id }} </td>
                 <td> {{ bus_schedule.origin }} </td>

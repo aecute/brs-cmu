@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-from bus.models import Bus
+from bus.models import Bus, Bus_schedule
 
 
 class Passenger(models.Model):
@@ -16,8 +16,16 @@ class Passenger(models.Model):
 
 	user_id = models.ForeignKey(User)
 
+
 	def __unicode__(self):
-		return self.user_id.username
+		return self.idetification_number
+
+class View(models.Model):
+	idetification_number = models.ForeignKey(Passenger, default=1)
+	bus_schedule_number = models.ForeignKey(Bus_schedule, default=1)
+
+	def __unicode__(self):
+		return self.idetification_number.idetification_number
 
 
 class Driver(models.Model):
@@ -32,3 +40,10 @@ class Driver(models.Model):
 
 	def __unicode__(self):
 		return self.idetification_number
+
+class Drive(models.Model):
+	idetification_number = models.ForeignKey(Driver, default=1)
+	bus_id = models.ForeignKey(Bus, default=1)
+
+	def __unicode__(self):
+		return self.idetification_number.idetification_number

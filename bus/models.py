@@ -10,11 +10,22 @@ class Bus_company(models.Model):
 	def __unicode__(self):
 		return self.name
 
+class PhoneNo(models.Model):
+	phone_no = models.CharField(max_length=10)
+	company_name = models.ForeignKey(Bus_company, default=1)
+
+	class Meta:
+		unique_together = ('phone_no', 'company_name')
+		
+	def __unicode__(self):
+		return self.phone_no
+		
 
 class Bus(models.Model):
 	bus_id = models.CharField(max_length=10, primary_key=True)
-	color = models.CharField(max_length=20)
-	seat = models.IntegerField()
+	reserve_seat = models.IntegerField(blank=True, null=True)
+	seats = models.IntegerField()
+	company_name = models.ForeignKey(Bus_company, default=1)
 
 	def __unicode__(self):
 		return self.bus_id
@@ -28,5 +39,9 @@ class Bus_schedule(models.Model):
 	date = models.DateTimeField()
 	price = models.IntegerField()
 
+	
+	class Meta:
+		unique_together = ('company_name', 'bus_id')
+
 	def __unicode__(self):
-		return self.bus_id.bus_id
+		return str(self.id)

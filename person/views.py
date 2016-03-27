@@ -4,34 +4,86 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-from bus.models import Bus_schedule
+from bus.models import Bus_schedule, Bus
 from .models import Passenger, Driver
 from .forms import LoginForm, UserForm, UserDetailForm
 
 @login_required(login_url='/login/')
 def home(request):
-	bus_schedules = Bus_schedule.objects.all()
+	#bus_schedules = Bus_schedule.objects.all()
+	sql = 'SELECT * FROM bus_bus_schedule'
+	bus_schedules = Bus_schedule.objects.raw(sql)
+	error = len(list(bus_schedules))
+
 	context = {
 		"bus_schedules": bus_schedules,
+		"error": error,
 	}
 	return render(request, "home.html", context)
 
+	# sql = "SELECT * FROM person_passenger"
+	# passenger = Passenger.objects.raw(sql)
+	
+	#count = len(list(passenger))
+
 @login_required(login_url='/login/')
 def reservation(request):
-	origin = request.POST.get('origin', None) 
-	destination = request.POST.get('destination', None)
 
-	results = Bus_schedule.objects.filter(origin=origin, destination=destination)
+	results=None
+	error = 0
+
+	# Origin and Destination
+	sql = "SELECT origin id, destination FROM bus_bus_schedule GROUP BY origin, destination"
+	bus_schedules = Bus_schedule.objects.raw(sql)
+	bus_schedules_error = len(list(bus_schedules))
+
+	# bus status
+	sql = "SELECT * FROM bus_bus"
+	bus = Bus.objects.raw(sql)
+	bus_error = len(list(bus))
+
+	if request.method == 'POST':
+		origin = request.POST.get('origin') 
+		destination = request.POST.get('destination')
+		results = Bus_schedule.objects.raw("SELECT * FROM bus_bus_schedule WHERE origin=%s AND destination=%s",[origin,destination])
+		#print list(results)
+		error = len(list(results))
+		
+	#results = Bus_schedule.objects.filter(origin=origin, destination=destination)
 	context = {
+		"bus": bus,
+		"bus_schedules": bus_schedules,
+		"bus_schedules_error": bus_schedules_error,
 		"results": results,
+		"error": error,
+		# "origins_error":origins_error,
+		# "destinations_error": destinations_error,
 	}
 	return render(request, "reservation.html", context)
 
 @login_required(login_url='/login/')
+def ticket(request, id=None):
+
+	path = Bus_schedule.objects.raw("SELECT * FROM bus_bus_schedule WHERE id=%s",[id])
+	#path = Bus_schedule.objects.filter(id=id) 
+	profile = Passenger.objects.raw("SELECT * FROM person_passenger WHERE user_id_id=%s",[request.user.id])
+	
+
+	context = {
+		"id": id,
+		"path": path,
+		"profile": profile,
+	}
+	return render(request, "ticket.html", context)
+
+@login_required(login_url='/login/')
 def drivers(request):
-	drivers = Driver.objects.all()
+	#drivers = Driver.objects.all()
+	drivers = Driver.objects.raw("SELECT * FROM person_driver")
+	error = len(list(drivers))
 	context = {
 		"drivers": drivers,
+		"error": error,
 	}
 	return render(request, "drivers.html", context)
 

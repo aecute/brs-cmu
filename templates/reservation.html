@@ -11,6 +11,7 @@
       -o-background-size: cover;
       background-size: cover;
   }
+
   {% endblock %}
 </style>
 
@@ -41,7 +42,7 @@
             <li><a href="#">Welcome, {{ user.username }}</a></li>
             {% endif %}
 
-            <li><a href='{% url "logout" %}'>logout</a></li>
+            <li><a href='{% url "logout" %}'>Logout</a></li>
           </ul>
 
         </div><!--/.nav-collapse -->
@@ -57,17 +58,40 @@
         <div class="panel-body">
 
         <div class="row">
-          <div class="col-sm-2"></div>
-          <div class="col-sm-8">
 
+          <div class="col-sm-6 col-sm-offset-3 ">
             <form class="form-inline" role="form" method="post">{% csrf_token %}
 
               <div class="form-group">
-                <label for="origin">Origin:</label>
-                <input type="text" class="form-control" name="origin" placeholder="Enter origin">
+                <label for="origin">Origin: </label>
+                <select class="form-control" name="origin">
+                  {% if bus_schedules_error == 0 %}
+                    <option>-------</option>
+                  {% else %}
+                  <option>Select an Origin</option>
 
-                <label for="destination">Destination:</label>
-                <input type="text" class="form-control" name="destination" placeholder="Enter destination">
+                    {% for bus_schedule in bus_schedules %}
+                        <option>{{ bus_schedule.id }}</option>
+                    {% endfor %}
+
+                  {% endif %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="destination">Destination: </label>
+                <select class="form-control" name="destination">
+                  {% if bus_schedules_error == 0 %}
+                    <option>-------</option>
+                  {% else %}
+                  <option>Select a Destination</option>
+
+                    {% for bus_schedule in bus_schedules %}
+                        <option>{{ bus_schedule.destination }}</option>
+                    {% endfor %}
+
+                  {% endif %}
+                </select>
               </div>
 
               <button type="submit" class="btn btn-default">Search</button>
@@ -75,7 +99,7 @@
             </form>
 
           </div>
-          <div class="col-sm-2"></div>
+
         </div>
 
           
@@ -87,7 +111,7 @@
         <div class="panel-heading">Result</div>
         <div class="panel-body">
 
-          {% if results.exists == False %}
+          {% if error == 0 %}
 
             <div class="alert alert-danger">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -98,6 +122,7 @@
             <div class="table-responsive"> 
               <table  class="table table-hover">
                 <tr>
+                  <th>Number</th>
                   <th>Company Name</th>
                   <th>Bus ID</th>
                   <th>Origin</th>
@@ -105,18 +130,39 @@
                   <th>Platform</th>
                   <th>Date</th>
                   <th>Price</th>
+                  <th>Status</th>
+                  <th>Tickets</th>
                 </tr>
 
                 {% for result in results %}
 
                 <tr>
+                  <td> {{ result.id }} </td>
                   <td> {{ result.company_name }} </td>
                   <td> {{ result.bus_id }} </td>
                   <td> {{ result.origin }} </td>
                   <td> {{ result.destination }} </td>
                   <td> {{ result.platform }} </td>
-                  <td>  {{ result.date }} </td>
+                  <td> {{ result.date }} </td>
                   <td> {{ result.price }} </td>
+
+                  {% for b in bus %}
+
+                    {% if b.bus_id|stringformat:"s" == result.bus_id|stringformat:"s" %}
+    
+                      {% if b.reserve_seat == b.seats %}
+                        <td class="text-danger"> Full </td>
+                        <td class="text-danger"><button type="button" class="btn btn-warning disabled">BUY</button></td>
+                      {% else %}
+                        <td class="text-success"> Available </td>
+                        <td class="text-danger">
+                        <a href="/ticket/{{ result.id }}" class="btn btn-warning" role="button">BUY</a></td>
+                      {% endif %}
+
+                    {% endif %}
+
+                  {% endfor %}
+
                 </tr>
 
                 {% endfor %}

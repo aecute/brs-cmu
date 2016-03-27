@@ -42,7 +42,7 @@
             <li><a href="#">Welcome, {{ user.username }}</a></li>
             {% endif %}
 
-            <li><a href='{% url "logout" %}'>logout</a></li>
+            <li><a href='{% url "logout" %}'>Logout</a></li>
           </ul>
 
         </div><!--/.nav-collapse -->
@@ -57,7 +57,7 @@
         <div class="panel-heading">Drivers Status</div>
         <div class="panel-body">
 
-            {% if drivers.exists == False %}
+            {% if error == 0 %}
 
             <div class="alert alert-danger">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
