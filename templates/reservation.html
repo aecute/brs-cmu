@@ -5,11 +5,11 @@
   {% block style %}
   body
   {
-      background: url(http://www.listofdownload.com/wp-content/uploads/2013/11/Londonstreet-Double-decker-bus-TiltShift-Wallpaper-1920x1200.jpg) no-repeat center center fixed; 
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
+    background: url(http://www.listofdownload.com/wp-content/uploads/2013/11/Londonstreet-Double-decker-bus-TiltShift-Wallpaper-1920x1200.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
   }
 
   {% endblock %}
@@ -17,174 +17,200 @@
 
 {% block content %}
 
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Bus Reservation system</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/">Bus Schedule</a></li>
-            <li  class="active"><a href="#">Reservation</a></li>
-            <li><a href="/drivers">Drivers Status</a></li>
-          </ul>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Bus Reservation system</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Bus Schedule</a></li>
+        <li  class="active"><a href="#">Reservation</a></li>
+        <li><a href="/drivers">Drivers Status</a></li>
+      </ul>
 
-          <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right">
 
-            {% if user.is_authenticated %}
-            <li><a href="#">Welcome, {{ user.username }}</a></li>
-            {% endif %}
+        {% if user.is_authenticated %}
+        <li><a href="#">Welcome, {{ user.username }}</a></li>
+        {% endif %}
 
-            <li><a href='{% url "logout" %}'>Logout</a></li>
-          </ul>
+        <li><a href='{% url "logout" %}'>Logout</a></li>
+      </ul>
 
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
 
-    <div class="container">
+<div class="container">
 
-    <br><br><br>
+  <br><br><br>
 
-      <div class="panel panel-default">
-        <div class="panel-heading">Search</div>
-        <div class="panel-body">
+  <div class="panel panel-default">
+    <div class="panel-heading">Search</div>
+    <div class="panel-body">
 
-        <div class="row">
+      <div class="row">
 
-          <div class="col-sm-7 col-sm-offset-2 text-center">
-            <form class="form-inline" role="form" method="post">{% csrf_token %}
+        <div class="col-sm-7 col-sm-offset-2 text-center">
+          <form class="form-inline" role="form" method="post">{% csrf_token %}
 
-              <div class="form-group">
-                <label for="origin">Origin: </label>
-                <select class="form-control" name="origin">
-                  {% if origins_check == 0 %}
-                    <option>-------</option>
-                  {% else %}
-                  <option>Select an Origin</option>
+            <div class="form-group">
+              <label for="origin">Origin: </label>
+              <select class="form-control" name="origin">
+                {% if origins_check == 0 %}
+                <option>-------</option>
+                {% else %}
+                <option>Select an Origin</option>
 
-                    {% for origin in origins %}
-                        <option>{{ origin.name }}</option>
-                    {% endfor %}
-
-                  {% endif %}
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="destination">Destination: </label>
-                <select class="form-control" name="destination">
-                  {% if destinations_check == 0 %}
-                    <option>-------</option>
-                  {% else %}
-                  <option>Select a Destination</option>
-
-                    {% for destiantion in destinations %}
-                        <option>{{ destiantion.name }}</option>
-                    {% endfor %}
-
-                  {% endif %}
-                </select>
-              </div>
-
-              <button type="submit" class="btn btn-default">Search</button>
-
-            </form>
-
-          </div>
-
-        </div>
-
-          
-
-        </div>
-      </div>
-
-      <div class="panel panel-primary">
-        <div class="panel-heading">Result</div>
-        <div class="panel-body">
-
-          {% if bus_schedules_check == 0 %}
-
-            <div class="alert alert-danger">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <strong>Fail!</strong> Please enter search first or Not Found.
-            </div>
-
-          {% else %}
-
-          <p>{{bus}}</p>
-            <div class="table-responsive"> 
-              <table  class="table table-hover">
-                <tr>
-                  <th>Number</th>
-                  <th>Origins</th>
-                  <th>Origins Platform</th>
-                  <th>Date time Arrive</th>
-                  <th>Destination</th>
-                  <th>Destination Platform</th>
-                  <th>Date time Depart</th>
-                  <th>Bus ID</th>
-                  <th>Company name</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th>Tickets</th>
-                </tr>
-
-  
-                {% for bus_schedule in bus_schedules %}
-
-                <tr>
-                  <td> {{ bus_schedule.bus_schedule_id }} </td>
-                  <td> {{ bus_schedule.ori_pr }} </td>
-                  <td> {{ bus_schedule.ori_pl }} </td>
-                  <td> {{ bus_schedule.date_time_arrive }} </td>
-                  <td> {{ bus_schedule.des_pr }} </td>
-                  <td> {{ bus_schedule.des_pl }} </td>
-                  <td>  {{ bus_schedule.date_time_depart }} </td>
-                  <td>  {{ bus_schedule.bus_id }} </td>
-                  <td>  {{ bus_schedule.company }} </td>
-                  <td> {{ bus_schedule.price }} </td>
-
-                  {% for b in bus %}
-
-                    {% if b.bus_id|stringformat:"s" == result.bus_id|stringformat:"s" %}
-    
-                      {% if b.reserve_seat == b.seats %}
-                        <td class="text-danger"> Full </td>
-                        <td class="text-danger"><button type="button" class="btn btn-warning disabled">BUY</button></td>
-                      {% else %}
-                        <td class="text-success"> Available </td>
-                        <td class="text-danger">
-                        
-                        <a href="/ticket/{{ bus_schedule.bus_schedule_id }}" class="btn btn-warning" role="button">BUY</a></td>
-                      {% endif %}
-
-                    {% endif %}
-
-                  {% endfor %}
-
-                </tr>
-
+                {% for origin in origins %}
+                <option>{{ origin.name }}</option>
                 {% endfor %}
-              </table>
+
+                {% endif %}
+              </select>
             </div>
+
+            <button type="submit" class="btn btn-default" name='get_des'>Get Destination</button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+      <hr>
+
+      <div class="row">
+
+        <div class="col-sm-7 col-sm-offset-2 text-center">
+          <form class="form-inline" role="form" method="post">{% csrf_token %}
+            {% if to %}
+            <p>{{ origin }} To</p>
+            {% endif %}
+            <div class="form-group">
+              <label for="destination">Destination: </label>
+              <select class="form-control" name="destination">
+                {% if destinations_check == 0 %}
+                <option>-------</option>
+                {% else %}
+                <option>Select a Destination</option>
+
+                {% for destiantion in destinations %}
+                <option>{{ destiantion.name }}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-default" name='search'>Search</button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+      {% if bus_schedules_check %}
+      <hr>
+      
+      <div class="row">
+
+        <div class="col-sm-7 col-sm-offset-2 text-center">
+          <h3>{{origin}} To {{destination}}</h3>
+        </div>
+
+      </div>
+
+      {% endif %}
+
+    </div>
+  </div>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">Result</div>
+    <div class="panel-body">
+
+      {% if bus_schedules_check == 0 %}
+
+      <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Fail!</strong> Please enter search first or Not Found.
+      </div>
+
+      {% else %}
+
+      <div class="table-responsive"> 
+        <table  class="table table-hover">
+          <tr>
+            <th>Number</th>
+            <th>Origins</th>
+            <th>Origins Platform</th>
+            <th>Date time Arrive</th>
+            <th>Destination</th>
+            <th>Destination Platform</th>
+            <th>Date time Depart</th>
+            <th>Bus ID</th>
+            <th>Company name</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Tickets</th>
+          </tr>
+
+
+          {% for bus_schedule in bus_schedules %}
+
+          <tr>
+            <td> {{ bus_schedule.bus_schedule_id }} </td>
+            <td> {{ bus_schedule.ori_pr }} </td>
+            <td> {{ bus_schedule.ori_pl }} </td>
+            <td> {{ bus_schedule.date_time_arrive }} </td>
+            <td> {{ bus_schedule.des_pr }} </td>
+            <td> {{ bus_schedule.des_pl }} </td>
+            <td>  {{ bus_schedule.date_time_depart }} </td>
+            <td>  {{ bus_schedule.bus_id }} </td>
+            <td>  {{ bus_schedule.company }} </td>
+            <td> {{ bus_schedule.price }} </td>
+
+            {% for b in bus %}
+
+            {% if b.bus_id|stringformat:"s" == result.bus_id|stringformat:"s" %}
+
+            {% if b.reserve_seat == b.seats %}
+            <td class="text-danger"> Full </td>
+            <td class="text-danger"><button type="button" class="btn btn-warning disabled">BUY</button></td>
+            {% else %}
+            <td class="text-success"> Available </td>
+            <td class="text-danger">
+
+              <a href="/ticket/{{ bus_schedule.bus_schedule_id }}" class="btn btn-warning" role="button">BUY</a></td>
+              {% endif %}
+
+              {% endif %}
+
+              {% endfor %}
+
+            </tr>
+
+            {% endfor %}
+          </table>
+        </div>
 
         {% endif %}
-          
-        </div>
+
       </div>
+    </div>
 
-    </div> 
+  </div> 
 
-{% endblock %}
+  {% endblock %}
 
 
 <!--   company_name = models.ForeignKey(Bus_company, default=1)
@@ -195,5 +221,5 @@
   date = models.DateTimeField()
   price = models.IntegerField()
 
- -->
+-->
 
