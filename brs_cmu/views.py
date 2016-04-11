@@ -95,8 +95,8 @@ def reservation(request):
 		# bus = namedtuplefetchall(cursor)
 		
 	context = {
-		"origin":request.session['origin'],
-		"destination":request.session['destination'],
+		"origin":request.session['origin', None],
+		"destination":request.session['destination', None],
 		"origins":origins,
 		"origins_check":origins_check,
 		"destinations":destinations,
