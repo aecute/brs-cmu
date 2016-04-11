@@ -49,6 +49,7 @@ def reservation(request):
 	destinations_check=0
 
 	origin=None
+	destination=None
 	to=0
 
 	cursor = connection.cursor()
@@ -79,8 +80,6 @@ def reservation(request):
 	if 'search' in request.POST:
 		origin = request.session['origin']
 		destination = request.POST.get('destination')
-		request.session['destination'] = destination
-
 
 		sql = "SELECT s.bus_schedule_id ,pr.name ori_pr, pl.name ori_pl, date_time_arrive ,pr2.name des_pr, pl2.name des_pl, date_time_depart, bus_id, bc.name company, price FROM brs_cmu_bus_schedule s JOIN brs_cmu_platform pl ON pl.platform_id = s.platform_id_origin_id JOIN brs_cmu_province pr ON pr.province_id = pl.province_id_id JOIN brs_cmu_platform pl2 ON pl2.platform_id = s.platform_id_destination_id JOIN brs_cmu_province pr2 ON pr2.province_id = pl2.province_id_id JOIN brs_cmu_bus b ON b.bus_id=s.bus_id_id JOIN brs_cmu_bus_company bc ON bc.name=b.company_name_id where pr.name='%s' and pr2.name='%s'" %(origin,destination)
 		cursor.execute(sql)
@@ -95,8 +94,8 @@ def reservation(request):
 		# bus = namedtuplefetchall(cursor)
 		
 	context = {
-		"origin":request.session['origin', None],
-		"destination":request.session['destination', None],
+		"origin":origin,
+		"destination":destination,
 		"origins":origins,
 		"origins_check":origins_check,
 		"destinations":destinations,
