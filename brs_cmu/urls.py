@@ -6,9 +6,9 @@ from .views import (
 	login_view,
 	logout_view,
 	register,
-	reservation,
 	ticket,
 	drivers,
+	companys,
 	)
 
 urlpatterns = [
@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^login/$', login_view),
     url(r'^logout/$', logout_view, name="logout"),
     url(r'^register/$', register), 
-    url(r'^reservation/$', reservation), 
     url(r'^ticket/(?P<id>\w+)/$', ticket, name="ticket"),
     url(r'^drivers/$', drivers), 
+    url(r'^companys/$', companys), 
 ]

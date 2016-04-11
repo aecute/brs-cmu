@@ -15,41 +15,13 @@
   {% endblock %}
 </style>
 
+{% block menu %}
+   <li><a href="/">Reserve</a></li>
+   <li class="active"><a href="#">Drivers Information</a></li>
+   <li><a href="/companys">Company Information</a></li>
+{% endblock %}
+
 {% block content %}
-
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Bus Reservation system</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/">Bus Schedule</a></li>
-            <li><a href="/reservation">Reservation</a></li>
-            <li class="active"><a href="#">Drivers Status</a></li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-
-            {% if user.is_authenticated %}
-            <li><a href="#">Welcome, {{ user.username }}</a></li>
-            {% endif %}
-
-            <li><a href='{% url "logout" %}'>Logout</a></li>
-          </ul>
-
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
-    <div class="container">
 
       <br><br><br><br><br><br>
 
@@ -57,7 +29,8 @@
         <div class="panel-heading">Drivers Status</div>
         <div class="panel-body">
 
-            {% if error == 0 %}
+
+            {% if drivers_check == 0 %}
 
             <div class="alert alert-danger">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -65,28 +38,32 @@
             </div>
 
             {% else %}
+
+
             <div class="table-responsive"> 
             <table  class="table table-hover">
               <tr>
-                <th>Identification Number</th>
-                <th>Name</th>
-                <th>Gender</th>
-                <th>Age</th>
+                <th>Bus ID</th>
                 <th>License</th>
-                <th>Experience</th>
-                <th>Driver in bus id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+                <th>Experiece (Year)</th>
+                <th>Age</th>
+                <th>Company</th>
               </tr>
 
               {% for driver in drivers %}
 
               <tr>
-                <td> {{ driver.idetification_number }} </td>
-                <td> {{ driver.name }} </td>
-                <td> {{ driver.gender }} </td>
-                <td> {{ driver.date_of_birth }} </td>
-                <td>  {{ driver.license }} </td>
-                <td> {{ driver.experience }} </td>
                 <td> {{ driver.bus_id }} </td>
+                <td> {{ driver.license }} </td>
+                <td> {{ driver.first_name }} </td>
+                <td> {{ driver.last_name }} </td>
+                <td> {{ driver.gender }} </td>
+                <td>  {{ driver.experience }} </td>
+                <td> {{ driver.age }} </td>
+                <td> {{ driver.company }} </td>
               </tr>
 
               {% endfor %}
@@ -100,7 +77,6 @@
         </div>
       </div>
 
-    </div> 
 
 
 {% endblock %}

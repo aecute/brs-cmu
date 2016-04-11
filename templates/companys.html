@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Home | {{ block.super }} {% endblock %}
+
+<style>
+  {% block style %}
+  body
+  {
+      background: url(http://freewallsup.com/wp-content/uploads/2014/09/bus-uk-london-hd-wallpaper.jpg) no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+  }
+  {% endblock %}
+</style>
+
+
+{% block menu %}
+   <li><a href="/">Reserve</a></li>
+   <li><a href="/drivers">Drivers Information</a></li>
+   <li class="active"><a href="#">Company Information</a></li>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+
+      <br><br><br><br><br><br>
+
+      <div class="panel panel-info">
+        <div class="panel-heading">Bus Schedule</div>
+        <div class="panel-body">
+
+          {% if error == 0 %}
+            <div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Fail!</strong> Bus schedule not found.
+            </div>
+          {% else %}
+          <div class="table-responsive "> 
+            <table  class="table table-hover">
+              <tr>
+                <th>Company Name</th>
+                <th>Amount of bus</th>
+                <th>Phone</th>
+              </tr>
+
+              {% for c in companys %}
+    
+              <tr>
+              <td> {{ c.company }} </td>
+              <td> {{ c.amount_bus }} </td>
+              <td> {{ c.phone_no }} </td>
+
+              <script>
+
+              </script>
+
+              </tr>
+
+              {% endfor %}
+            </table>
+          </div>
+
+      {% endif %}
+          
+        </div>
+      </div>
+
+    </div> 
+
+{% endblock %}
+
+
+<!--   company_name = models.ForeignKey(Bus_company, default=1)
+  bus_id = models.ForeignKey(Bus, default=1)
+  origin = models.CharField(max_length=40)
+  destination = models.CharField(max_length=40)
+  platform = models.CharField(max_length=40)
+  date = models.DateTimeField()
+  price = models.IntegerField()
+
+ -->
+

@@ -18,29 +18,9 @@ def namedtuplefetchall(cursor):
     nt_result = namedtuple('Result', [col[0] for col in desc])
     return [nt_result(*row) for row in cursor.fetchall()]
 
+
 @login_required(login_url='/login/')
 def home(request):
-	#bus_schedules = Bus_schedule.objects.all()
-	sql = "SELECT s.bus_schedule_id ,pr.name ori_pr, pl.name ori_pl, date_time_arrive ,pr2.name des_pr, pl2.name des_pl, date_time_depart, bus_id, bc.name company, price FROM brs_cmu_bus_schedule s JOIN brs_cmu_platform pl ON pl.platform_id = s.platform_id_origin_id JOIN brs_cmu_province pr ON pr.province_id = pl.province_id_id JOIN brs_cmu_platform pl2 ON pl2.platform_id = s.platform_id_destination_id JOIN brs_cmu_province pr2 ON pr2.province_id = pl2.province_id_id JOIN brs_cmu_bus b ON b.bus_id=s.bus_id_id JOIN brs_cmu_bus_company bc ON bc.name=b.company_name_id"
-	cursor = connection.cursor()
-	cursor.execute(sql)
-	bus_schedules = namedtuplefetchall(cursor)
-	bus_schedules_check = len(bus_schedules)
-
-	context = {
-		"bus_schedules": bus_schedules,
-		"bus_schedules_check": bus_schedules_check,
-	}
-	return render(request, "home.html", context)
-
-	# sql = "SELECT * FROM person_passenger"
-	# passenger = Passenger.objects.raw(sql)
-	
-	#count = len(list(passenger))
-
-
-@login_required(login_url='/login/')
-def reservation(request):
 
 	bus_schedules=None
 	bus_schedules_check = 0
@@ -81,17 +61,12 @@ def reservation(request):
 		origin = request.session['origin']
 		destination = request.POST.get('destination')
 
-		sql = "SELECT s.bus_schedule_id ,pr.name ori_pr, pl.name ori_pl, date_time_arrive ,pr2.name des_pr, pl2.name des_pl, date_time_depart, bus_id, bc.name company, price FROM brs_cmu_bus_schedule s JOIN brs_cmu_platform pl ON pl.platform_id = s.platform_id_origin_id JOIN brs_cmu_province pr ON pr.province_id = pl.province_id_id JOIN brs_cmu_platform pl2 ON pl2.platform_id = s.platform_id_destination_id JOIN brs_cmu_province pr2 ON pr2.province_id = pl2.province_id_id JOIN brs_cmu_bus b ON b.bus_id=s.bus_id_id JOIN brs_cmu_bus_company bc ON bc.name=b.company_name_id where pr.name='%s' and pr2.name='%s'" %(origin,destination)
+		sql = "SELECT bus_schedule_id,pl.name ori_pl,pr.name ori_pr,date_time_arrive, pl2.name des_pl, pr2.name des_pr,date_time_depart, bus_id, bc.name Company,price,seats,COUNT(id_card_id) Booking FROM brs_cmu_bus_schedule s JOIN brs_cmu_platform pl ON pl.platform_id = s.platform_id_origin_id  JOIN brs_cmu_province pr ON pr.province_id = pl.province_id_id JOIN brs_cmu_platform pl2 ON pl2.platform_id = s.platform_id_destination_id JOIN brs_cmu_province pr2 ON pr2.province_id = pl2.province_id_id JOIN brs_cmu_bus b ON b.bus_id = s.bus_id_id JOIN brs_cmu_bus_company bc ON bc.name = b.company_name_id JOIN brs_cmu_booking bo ON s.bus_schedule_id = bo.bus_schedule_id_id where pr.name='%s' and pr2.name='%s' GROUP BY bus_schedule_id,date_time_arrive ,pl.name,pr.name,date_time_depart, pl2.name , pr2.name, bus_id, bc.name,price ORDER BY bus_id ASC" %(origin,destination)
 		cursor.execute(sql)
 		bus_schedules = namedtuplefetchall(cursor)
 		bus_schedules_check = len(bus_schedules)
 		to=0
 
-		#seat
-		# sql = "select b.seats from brs_cmu_bus b where bus_id=(select bs.bus_id_id from brs_cmu_bus_schedule bs where bs.platform_id_origin_id=(select pl.platform_id from brs_cmu_platform pl, brs_cmu_province pr where pl.province_id_id=pr.province_id AND pr.name='%s') AND bs.platform_id_destination_id=(select pl.platform_id from brs_cmu_platform pl, brs_cmu_province pr where pl.province_id_id=pr.province_id AND pr.name='%s'))"%(origin,destination)
-
-		# cursor.execute(sql)
-		# bus = namedtuplefetchall(cursor)
 		
 	context = {
 		"origin":origin,
@@ -105,7 +80,7 @@ def reservation(request):
 		"to":to,
 		#"bus":bus,
 	}
-	return render(request, "reservation.html", context)
+	return render(request, "home.html", context)
 
 @login_required(login_url='/login/')
 def ticket(request, id=None):
@@ -124,12 +99,34 @@ def ticket(request, id=None):
 
 @login_required(login_url='/login/')
 def drivers(request):
-	#drivers = Driver.objects.all()
-	error = 0
+
+	sql="SELECT DISTINCT bus_id_id bus_id, License,first_name,last_name,experience,gender,age,c.name Company FROM brs_cmu_driver drver JOIN brs_cmu_drive drve ON drver.id_card = drve.id_card_id JOIN brs_cmu_bus b ON b.bus_id = drve.bus_id_id JOIN brs_cmu_bus_company c ON c.name = b.company_name_id ORDER BY bus_id_id ASC"
+	cursor = connection.cursor()
+	cursor.execute(sql)
+	drivers = namedtuplefetchall(cursor)
+	drivers_check = len(drivers)
+
 	context = {
-		"error": error,
+		"drivers": drivers,
+		"drivers_check":drivers_check,
 	}
 	return render(request, "drivers.html", context)
+
+@login_required(login_url='/login/')
+def companys(request):
+
+	sql="SELECT DISTINCT c.name Company,COUNT(bus_id) amount_bus,phone_no FROM brs_cmu_bus b JOIN brs_cmu_bus_company c ON c.name = b.company_name_id JOIN brs_cmu_phoneno p ON p.company_name_id = c.name GROUP BY c.name,phone_no ORDER BY c.name ASC"
+	cursor = connection.cursor()
+	cursor.execute(sql)
+	companys = namedtuplefetchall(cursor)
+	companys_check = len(companys)
+
+	context = {
+		"companys": companys,
+		"companys_check":companys_check,
+	}
+	return render(request, "companys.html", context)
+
 
 def register(request):
 
