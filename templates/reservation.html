@@ -59,20 +59,19 @@
 
         <div class="row">
 
-
-          <div class="col-sm-7 col-sm-offset-3 text-center">
+          <div class="col-sm-7 col-sm-offset-2 text-center">
             <form class="form-inline" role="form" method="post">{% csrf_token %}
 
               <div class="form-group">
                 <label for="origin">Origin: </label>
                 <select class="form-control" name="origin">
-                  {% if bus_schedules_error == 0 %}
+                  {% if origins_check == 0 %}
                     <option>-------</option>
                   {% else %}
                   <option>Select an Origin</option>
 
-                    {% for bus_schedule in bus_schedules %}
-                        <option>{{ bus_schedule.id }}</option>
+                    {% for origin in origins %}
+                        <option>{{ origin.name }}</option>
                     {% endfor %}
 
                   {% endif %}
@@ -82,13 +81,13 @@
               <div class="form-group">
                 <label for="destination">Destination: </label>
                 <select class="form-control" name="destination">
-                  {% if bus_schedules_error == 0 %}
+                  {% if destinations_check == 0 %}
                     <option>-------</option>
                   {% else %}
                   <option>Select a Destination</option>
 
-                    {% for bus_schedule in bus_schedules %}
-                        <option>{{ bus_schedule.destination }}</option>
+                    {% for destiantion in destinations %}
+                        <option>{{ destiantion.name }}</option>
                     {% endfor %}
 
                   {% endif %}
@@ -112,7 +111,7 @@
         <div class="panel-heading">Result</div>
         <div class="panel-body">
 
-          {% if error == 0 %}
+          {% if bus_schedules_check == 0 %}
 
             <div class="alert alert-danger">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -120,32 +119,39 @@
             </div>
 
           {% else %}
+
+          <p>{{bus}}</p>
             <div class="table-responsive"> 
               <table  class="table table-hover">
                 <tr>
                   <th>Number</th>
-                  <th>Company Name</th>
-                  <th>Bus ID</th>
-                  <th>Origin</th>
+                  <th>Origins</th>
+                  <th>Origins Platform</th>
+                  <th>Date time Arrive</th>
                   <th>Destination</th>
-                  <th>Platform</th>
-                  <th>Date</th>
+                  <th>Destination Platform</th>
+                  <th>Date time Depart</th>
+                  <th>Bus ID</th>
+                  <th>Company name</th>
                   <th>Price</th>
                   <th>Status</th>
                   <th>Tickets</th>
                 </tr>
 
-                {% for result in results %}
+  
+                {% for bus_schedule in bus_schedules %}
 
                 <tr>
-                  <td> {{ result.id }} </td>
-                  <td> {{ result.company_name }} </td>
-                  <td> {{ result.bus_id }} </td>
-                  <td> {{ result.origin }} </td>
-                  <td> {{ result.destination }} </td>
-                  <td> {{ result.platform }} </td>
-                  <td> {{ result.date }} </td>
-                  <td> {{ result.price }} </td>
+                  <td> {{ bus_schedule.bus_schedule_id }} </td>
+                  <td> {{ bus_schedule.ori_pr }} </td>
+                  <td> {{ bus_schedule.ori_pl }} </td>
+                  <td> {{ bus_schedule.date_time_arrive }} </td>
+                  <td> {{ bus_schedule.des_pr }} </td>
+                  <td> {{ bus_schedule.des_pl }} </td>
+                  <td>  {{ bus_schedule.date_time_depart }} </td>
+                  <td>  {{ bus_schedule.bus_id }} </td>
+                  <td>  {{ bus_schedule.company }} </td>
+                  <td> {{ bus_schedule.price }} </td>
 
                   {% for b in bus %}
 
@@ -157,7 +163,8 @@
                       {% else %}
                         <td class="text-success"> Available </td>
                         <td class="text-danger">
-                        <a href="/ticket/{{ result.id }}" class="btn btn-warning" role="button">BUY</a></td>
+                        
+                        <a href="/ticket/{{ bus_schedule.bus_schedule_id }}" class="btn btn-warning" role="button">BUY</a></td>
                       {% endif %}
 
                     {% endif %}

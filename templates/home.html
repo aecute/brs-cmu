@@ -67,25 +67,29 @@
             <table  class="table table-hover">
               <tr>
                 <th>Number</th>
-                <th>Company Name</th>
-                <th>Bus ID</th>
-                <th>Origin</th>
+                <th>Origins</th>
+                <th>Origins Platform</th>
+                <th>Date time Arrive</th>
                 <th>Destination</th>
-                <th>Platform</th>
-                <th>Date</th>
+                <th>Destination Platform</th>
+                <th>Date time Depart</th>
+                <th>Bus ID</th>
+                <th>Company name</th>
                 <th>Price</th>
               </tr>
 
               {% for bus_schedule in bus_schedules %}
 
               <tr>
-                <td> {{ bus_schedule.id }} </td>
-                <td> {{ bus_schedule.company_name }} </td>
-                <td> {{ bus_schedule.bus_id }} </td>
-                <td> {{ bus_schedule.origin }} </td>
-                <td> {{ bus_schedule.destination }} </td>
-                <td> {{ bus_schedule.platform }} </td>
-                <td>  {{ bus_schedule.date }} </td>
+                <td> {{ bus_schedule.bus_schedule_id }} </td>
+                <td> {{ bus_schedule.ori_pr }} </td>
+                <td> {{ bus_schedule.ori_pl }} </td>
+                <td> {{ bus_schedule.date_time_arrive }} </td>
+                <td> {{ bus_schedule.des_pr }} </td>
+                <td> {{ bus_schedule.des_pl }} </td>
+                <td>  {{ bus_schedule.date_time_depart }} </td>
+                <td>  {{ bus_schedule.bus_id }} </td>
+                <td>  {{ bus_schedule.company }} </td>
                 <td> {{ bus_schedule.price }} </td>
               </tr>
 
