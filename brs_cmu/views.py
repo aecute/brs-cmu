@@ -90,7 +90,7 @@ def ticket(request, id=None):
 	cursor.execute(sql)
 	path = namedtuplefetchall(cursor)
 
-	sql="SELECT *,age(date_of_birth) FROM brs_cmu_passenger WHERE user_id_id=%s" %(request.user.id)
+	sql="SELECT *,EXTRACT(YEAR FROM age(date_of_birth)) AS age FROM brs_cmu_passenger WHERE user_id_id=%s" %(request.user.id)
 	cursor = connection.cursor()
 	cursor.execute(sql)
 	profile = namedtuplefetchall(cursor)
@@ -108,7 +108,7 @@ def ticket(request, id=None):
 @login_required(login_url='/login/')
 def drivers(request):
 
-	sql="SELECT DISTINCT bus_id_id bus_id, License,first_name,last_name,experience, age(date_of_birth),gender,c.name Company FROM brs_cmu_driver drver JOIN brs_cmu_drive drve ON drver.id_card = drve.id_card_id JOIN brs_cmu_bus b ON b.bus_id = drve.bus_id_id JOIN brs_cmu_bus_company c ON c.name = b.company_name_id ORDER BY bus_id_id ASC"
+	sql="SELECT DISTINCT bus_id_id bus_id, License,first_name,last_name,experience, EXTRACT(YEAR FROM age(date_of_birth)) as age,gender,c.name Company FROM brs_cmu_driver drver JOIN brs_cmu_drive drve ON drver.id_card = drve.id_card_id JOIN brs_cmu_bus b ON b.bus_id = drve.bus_id_id JOIN brs_cmu_bus_company c ON c.name = b.company_name_id ORDER BY bus_id_id ASC"
 	cursor = connection.cursor()
 	cursor.execute(sql)
 	drivers = namedtuplefetchall(cursor)
