@@ -79,27 +79,27 @@ WSGI_APPLICATION = 'brs.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'df4l0lpdl0u1h7',
-        'USER': 'buzchjwpukiinc',
-        'PASSWORD': 'DI7XGXLhWToVoEa-N2co782Xtx',
-        'HOST': 'ec2-54-83-56-31.compute-1.amazonaws.com',
-        'PORT': '5432',
-    }
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'brs',
-#         'USER': 'brs',
-#         'PASSWORD': 'brsdatabase',
-#         'HOST': 'localhost',
-#         'PORT': '',
+#         'NAME': 'df4l0lpdl0u1h7',
+#         'USER': 'buzchjwpukiinc',
+#         'PASSWORD': 'DI7XGXLhWToVoEa-N2co782Xtx',
+#         'HOST': 'ec2-54-83-56-31.compute-1.amazonaws.com',
+#         'PORT': '5432',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'brs',
+        'USER': 'brs',
+        'PASSWORD': 'brsdatabase',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 # import dj_database_url
 

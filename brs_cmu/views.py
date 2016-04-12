@@ -85,22 +85,30 @@ def home(request):
 @login_required(login_url='/login/')
 def ticket(request, id=None):
 
-	#path = Bus_schedule.objects.raw("SELECT * FROM bus_bus_schedule WHERE id=%s",[id])
-	#path = Bus_schedule.objects.filter(id=id) 
+	sql="SELECT pr.name ori_pr, pl.name ori_pl, date_time_arrive ,pr2.name des_pr, pl2.name des_pl, date_time_depart, bus_id, bc.name company, price FROM brs_cmu_bus_schedule s JOIN brs_cmu_platform pl ON pl.platform_id = s.platform_id_origin_id JOIN brs_cmu_province pr ON pr.province_id = pl.province_id_id JOIN brs_cmu_platform pl2 ON pl2.platform_id = s.platform_id_destination_id JOIN brs_cmu_province pr2 ON pr2.province_id = pl2.province_id_id JOIN brs_cmu_bus b ON b.bus_id=s.bus_id_id JOIN brs_cmu_bus_company bc ON bc.name=b.company_name_id where s.bus_schedule_id='%s'" %(id)
+	cursor = connection.cursor()
+	cursor.execute(sql)
+	path = namedtuplefetchall(cursor)
+
+	sql="SELECT *,age(date_of_birth) FROM brs_cmu_passenger WHERE user_id_id=%s" %(request.user.id)
+	cursor = connection.cursor()
+	cursor.execute(sql)
+	profile = namedtuplefetchall(cursor)
+
 	#profile = Passenger.objects.raw("SELECT * FROM person_passenger WHERE user_id_id=%s",[request.user.id])
 	
 
 	context = {
 		"id": id,
-		# "path": path,
-		# "profile": profile,
+		"path": path,
+		"profile": profile,
 	}
 	return render(request, "ticket.html", context)
 
 @login_required(login_url='/login/')
 def drivers(request):
 
-	sql="SELECT DISTINCT bus_id_id bus_id, License,first_name,last_name,experience,gender,age,c.name Company FROM brs_cmu_driver drver JOIN brs_cmu_drive drve ON drver.id_card = drve.id_card_id JOIN brs_cmu_bus b ON b.bus_id = drve.bus_id_id JOIN brs_cmu_bus_company c ON c.name = b.company_name_id ORDER BY bus_id_id ASC"
+	sql="SELECT DISTINCT bus_id_id bus_id, License,first_name,last_name,experience, age(date_of_birth),gender,c.name Company FROM brs_cmu_driver drver JOIN brs_cmu_drive drve ON drver.id_card = drve.id_card_id JOIN brs_cmu_bus b ON b.bus_id = drve.bus_id_id JOIN brs_cmu_bus_company c ON c.name = b.company_name_id ORDER BY bus_id_id ASC"
 	cursor = connection.cursor()
 	cursor.execute(sql)
 	drivers = namedtuplefetchall(cursor)
@@ -115,7 +123,7 @@ def drivers(request):
 @login_required(login_url='/login/')
 def companys(request):
 
-	sql="SELECT DISTINCT c.name Company,COUNT(bus_id) amount_bus,phone_no FROM brs_cmu_bus b JOIN brs_cmu_bus_company c ON c.name = b.company_name_id JOIN brs_cmu_phoneno p ON p.company_name_id = c.name GROUP BY c.name,phone_no ORDER BY c.name ASC"
+	sql="SELECT DISTINCT c.name company,COUNT(bus_id) amount_bus,phone_no FROM brs_cmu_bus b JOIN brs_cmu_bus_company c ON c.name = b.company_name_id JOIN brs_cmu_phoneno p ON p.company_name_id = c.name GROUP BY c.name,phone_no ORDER BY c.name ASC"
 	cursor = connection.cursor()
 	cursor.execute(sql)
 	companys = namedtuplefetchall(cursor)

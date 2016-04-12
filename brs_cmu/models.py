@@ -67,7 +67,6 @@ class Passenger(models.Model):
 	last_name = models.CharField(max_length=15)
 	gender = models.CharField(max_length=10)
 	date_of_birth = models.DateField()
-	age = models.IntegerField()
 	phone_number = models.CharField(max_length=10)
 	address = models.TextField()
 
@@ -91,7 +90,6 @@ class Driver(models.Model):
 	last_name = models.CharField(max_length=15)
 	gender = models.CharField(max_length=10)
 	date_of_birth = models.DateField()
-	age = models.IntegerField()
 	license = models.CharField(max_length=20)
 	experience = models.IntegerField()
 

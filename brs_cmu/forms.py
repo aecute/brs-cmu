@@ -19,9 +19,17 @@ class UserForm(forms.ModelForm):
 			"password",
 		]
 
+
+
 class UserDetailForm(forms.ModelForm):
+	id_card=forms.CharField(max_length=13, min_length=13)
+
+	gender_choices = (('m', 'Male'),('f', 'Female'),)
+	gender = forms.ChoiceField(choices=gender_choices)
+	
 	phone_number = forms.CharField(widget=forms.TextInput, required=False)
 	address = forms.CharField(widget=forms.Textarea, required=False)
+	date_of_birth = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))    
 
 	class Meta:
 		model = Passenger

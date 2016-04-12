@@ -3,11 +3,11 @@
 {% load crispy_forms_tags %}
 
 {% block title %}Register | {{ block.super }} {% endblock %}
+{% block title_bar %}{{ block.super }} | Register{% endblock %}
 
 {% block content %}
 
-<h1>BUS RESERVATION SYSTEM REGISTER!!!</h1>
-<hr>
+<br><br><br>
 
 <form action="" method="post">{% csrf_token %}
 	

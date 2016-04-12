@@ -21,41 +21,45 @@
 
 	<br><br><br>
 
-    <div class="container">
+
 
     <div class="panel panel-success">
       <div class="panel-heading">Buy Ticket | Bus Schedule Number = {{ id }}</div>
       <div class="panel-body">
 
-      {% for p in path %}
       <h3>Path</h3>
       <div class="well">
-	      <p> Company Name : {{ p.company_name }} </p>
-	      <p> Bus Id : {{ p.bus_id }}  </p>
-	      <p> Origin : {{ p.origin }} </p>
-	      <p> Destination : {{ p.destination }} </p>
-	      <p> Platform : {{ p.platform }} </p>
-	      <p> Date : {{ p.date }} </p>
-	      <p> Price : {{ p.price }} </p>
+      {% for p in path %}
+	      <p> Origin : {{ p.ori_pr }} </p>
+	      <p> Origin Platform : {{ p.ori_pl }}  </p>
+	      <p> Origin Datetime : {{ p.date_time_arrive }} </p>
+	      <p> Destination : {{ p.des_pr }} </p>
+	      <p> Destination Platform : {{ p.des_pl }} </p>
+	      <p> Destination Datetime : {{ p.date_time_depart }} </p>
+	      <p> Bus ID : {{ p.bus_id }} </p>
+        <p> Company Name : {{ p.company }} </p>
+        <p> Price : {{ p.price }} </p>
+      {% endfor %}
       </div>
 
-      {% endfor %}
 		
 		<h3>Profile's username : {{ user.username  }}</h3>
        <div class="well"> 
 			{% for u in profile %}
-			<p> Idetification Number : {{ u.idetification_number }}</p>
-			<p> Name : {{ u.name }}</p>
-			<p> Gender : {{ u.gender }}</p>
+			<p> ID Card : {{ u.id_card }}</p>
+			<p> First Name : {{ u.first_name }}</p>
+			<p> Last Name : {{ u.last_name }}</p>
 			<p> Date of birth : {{ u.date_of_birth }}</p>
-			<p> Contact : {{ u.contact }}</p>
-			<p> Address : {{ u.address }}</p>
+      <p> Age : {{ u.age }}</p>
+      <p> Phone Number : {{ u.phone_number }}</p>
+      <p> Address : {{ u.address }}</p>
+
 			{% endfor %}
        </div>
 
        </div>
     </div>
 
-    </div>
+
 
 {% endblock %}
