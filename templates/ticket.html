@@ -6,11 +6,11 @@
   {% block style %}
   body
   {
-      background: url(http://www.astratravel.co.za/images/World_Travel___Tourism_Plane_ticket_018982_.jpg) no-repeat center center fixed; 
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
+    background: url(http://www.astratravel.co.za/images/World_Travel___Tourism_Plane_ticket_018982_.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
   }
 
   {% endblock %}
@@ -19,47 +19,82 @@
 
 {% block content %}
 
-	<br><br><br>
+<br><br><br>
 
 
 
-    <div class="panel panel-success">
-      <div class="panel-heading">Buy Ticket | Bus Schedule Number = {{ id }}</div>
-      <div class="panel-body">
+<div class="panel panel-success">
+  <div class="panel-heading">Buy Ticket | Bus Schedule Number = {{ id }}</div>
+  <div class="panel-body">
 
-      <h3>Path</h3>
-      <div class="well">
-      {% for p in path %}
-	      <p> Origin : {{ p.ori_pr }} </p>
-	      <p> Origin Platform : {{ p.ori_pl }}  </p>
-	      <p> Origin Datetime : {{ p.date_time_arrive }} </p>
-	      <p> Destination : {{ p.des_pr }} </p>
-	      <p> Destination Platform : {{ p.des_pl }} </p>
-	      <p> Destination Datetime : {{ p.date_time_depart }} </p>
-	      <p> Bus ID : {{ p.bus_id }} </p>
-        <p> Company Name : {{ p.company }} </p>
-        <p> Price : {{ p.price }} </p>
-      {% endfor %}
+
+    <h3>Booking Details</h3>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="well">
+          <p><strong>JOURNEY</strong></p>
+          {% for p in path %}
+          <p> Origin : {{ p.ori_pr }} </p>
+          <p> Origin Platform : {{ p.ori_pl }}  </p>
+          <p> Origin Datetime : {{ p.date_time_arrive }} </p>
+          <p> Destination : {{ p.des_pr }} </p>
+          <p> Destination Platform : {{ p.des_pl }} </p>
+          <p> Destination Datetime : {{ p.date_time_depart }} </p>
+          {% endfor %}
+        </div>
       </div>
 
-		{{profile}}
-		<h3>Profile's username : {{ user.username  }}</h3>
-       <div class="well"> 
-			{% for u in profile %}
-			<p> ID Card : {{ u.id_card }}</p>
-			<p> First Name : {{ u.first_name }}</p>
-			<p> Last Name : {{ u.last_name }}</p>
-			<p> Date of birth : {{ u.date_of_birth }}</p>
-      <p> Age : {{ u.age }}</p>
-      <p> Phone Number : {{ u.phone_number }}</p>
-      <p> Address : {{ u.address }}</p>
-
-			{% endfor %}
-       </div>
-
-       </div>
+      <div class="col-sm-6">
+        <div class="well">
+          <p><strong>TICKETS & PAYMENT</strong></p>
+          {% for p in path %}
+          <p> Bus ID : {{ p.bus_id }} </p>
+          <p> Company Name : {{ p.company }} </p>
+          <p> Price : {{ p.price }} </p>
+          {% endfor %}
+        </div>
+      </div>
     </div>
 
+    <hr>
 
+    
+    <div class="row"> 
+      <div class="col-sm-6  col-sm-offset-3">
+      <h3>Personal Details : {{ user.username  }}</h3>
+        <div class="well">
+         {% for u in users %}
+         <p> ID Card : {{ u.id_card }}</p>
+         <p> First Name : {{ u.first_name }}</p>
+         <p> Last Name : {{ u.last_name }}</p>
+         <p> Date of birth : {{ u.date_of_birth }}</p>
+         <p> Age : {{ u.age }}</p>
+         <p> Phone Number : {{ u.phone_number }}</p>
+         <p> Address : {{ u.address }}</p>
+         {% endfor %}
+       </div>
+     </div>
+   </div>
+
+
+ </div>
+
+
+ <div class="row">
+  <div class="col-sm-6  col-sm-offset-5">
+    <form method="post">{% csrf_token %}
+      <button type="submit" class="btn btn-default" onclick="myFunction()">CONFIRM</button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<br><br><br> 
+
+<script>
+function myFunction() {
+    alert("Complate! Press OK to Homepage.");
+}
+</script>
 
 {% endblock %}

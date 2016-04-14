@@ -32,12 +32,14 @@ def home(request):
 	destination=None
 	to=0
 
-	cursor = connection.cursor()
+	
 	# Origin
 	sql = "select pr.name from brs_cmu_bus_schedule bs, brs_cmu_platform pl, brs_cmu_province pr where bs.platform_id_origin_id=pl.platform_id AND pl.province_id_id=pr.province_id group by pr.name order by pr.name"
+	cursor = connection.cursor()
 	cursor.execute(sql)
 	origins = namedtuplefetchall(cursor)
 	origins_check = len(origins)
+	cursor.close()
 
 
 	# Destination
@@ -47,9 +49,11 @@ def home(request):
 		#print origin
 
 		sql = "select pr.name from brs_cmu_bus_schedule bs, brs_cmu_platform pl, brs_cmu_platform pl2, brs_cmu_province pr, brs_cmu_province pr2 where bs.platform_id_destination_id=pl.platform_id AND pl.province_id_id=pr.province_id and bs.platform_id_origin_id=pl2.platform_id AND pl2.province_id_id=pr2.province_id AND pr2.name='%s' group by pr.name order by pr.name" %(origin)
+		cursor = connection.cursor()
 		cursor.execute(sql)
 		destinations = namedtuplefetchall(cursor)
 		destinations_check = len(destinations)
+		cursor.close()
 		to=1
 
 	# # bus status
@@ -61,11 +65,14 @@ def home(request):
 		origin = request.session['origin']
 		destination = request.POST.get('destination')
 
-		sql = "SELECT bus_schedule_id,pl.name ori_pl,pr.name ori_pr,date_time_arrive, pl2.name des_pl, pr2.name des_pr,date_time_depart, bus_id, bc.name Company,price,seats,COUNT(id_card_id) Booking FROM brs_cmu_bus_schedule s JOIN brs_cmu_platform pl ON pl.platform_id = s.platform_id_origin_id  JOIN brs_cmu_province pr ON pr.province_id = pl.province_id_id JOIN brs_cmu_platform pl2 ON pl2.platform_id = s.platform_id_destination_id JOIN brs_cmu_province pr2 ON pr2.province_id = pl2.province_id_id JOIN brs_cmu_bus b ON b.bus_id = s.bus_id_id JOIN brs_cmu_bus_company bc ON bc.name = b.company_name_id JOIN brs_cmu_booking bo ON s.bus_schedule_id = bo.bus_schedule_id_id where pr.name='%s' and pr2.name='%s' GROUP BY bus_schedule_id,date_time_arrive ,pl.name,pr.name,date_time_depart, pl2.name , pr2.name, bus_id, bc.name,price ORDER BY bus_id ASC" %(origin,destination)
+		sql = "SELECT bus_schedule_id,pl.name ori_pl,pr.name ori_pr,date_time_arrive, pl2.name des_pl, pr2.name des_pr,date_time_depart, bus_id, bc.name Company,price,seats,COUNT(id_card_id) Booking FROM brs_cmu_bus_schedule s JOIN brs_cmu_platform pl ON pl.platform_id = s.platform_id_origin_id  JOIN brs_cmu_province pr ON pr.province_id = pl.province_id_id JOIN brs_cmu_platform pl2 ON pl2.platform_id = s.platform_id_destination_id JOIN brs_cmu_province pr2 ON pr2.province_id = pl2.province_id_id JOIN brs_cmu_bus b ON b.bus_id = s.bus_id_id JOIN brs_cmu_bus_company bc ON bc.name = b.company_name_id LEFT JOIN brs_cmu_booking bo ON s.bus_schedule_id = bo.bus_schedule_id_id where pr.name='%s' and pr2.name='%s' GROUP BY bus_schedule_id,date_time_arrive ,pl.name,pr.name,date_time_depart, pl2.name , pr2.name, bus_id, bc.name,price ORDER BY bus_id ASC" %(origin,destination)
+		cursor = connection.cursor()
 		cursor.execute(sql)
 		bus_schedules = namedtuplefetchall(cursor)
 		bus_schedules_check = len(bus_schedules)
+		cursor.close()
 		to=0
+
 
 		
 	context = {
@@ -89,19 +96,34 @@ def ticket(request, id=None):
 	cursor = connection.cursor()
 	cursor.execute(sql)
 	path = namedtuplefetchall(cursor)
+	cursor.close()
+
 
 	sql="SELECT *,EXTRACT(YEAR FROM age(date_of_birth)) AS age FROM brs_cmu_passenger WHERE user_id_id=%s" %(request.user.id)
 	cursor = connection.cursor()
 	cursor.execute(sql)
-	profile = namedtuplefetchall(cursor)
+	users = namedtuplefetchall(cursor)
+	cursor.close()
 
-	#profile = Passenger.objects.raw("SELECT * FROM person_passenger WHERE user_id_id=%s",[request.user.id])
+	id_card=None
+	#select id_card
+	for u in users:
+		id_card=u.id_card
+
+	print id_card
+
+	if request.POST:
+	 	sql="INSERT INTO brs_cmu_booking (bus_schedule_id_id,id_card_id) VALUES ('%s', '%s');" %(id,id_card)
+	 	cursor = connection.cursor()
+		cursor.execute(sql)
+		cursor.close()
+		return HttpResponseRedirect("/")
 	
 
 	context = {
 		"id": id,
 		"path": path,
-		"profile": profile,
+		"users": users,
 	}
 	return render(request, "ticket.html", context)
 
@@ -113,6 +135,7 @@ def drivers(request):
 	cursor.execute(sql)
 	drivers = namedtuplefetchall(cursor)
 	drivers_check = len(drivers)
+	cursor.close()
 
 	context = {
 		"drivers": drivers,
@@ -128,6 +151,7 @@ def companys(request):
 	cursor.execute(sql)
 	companys = namedtuplefetchall(cursor)
 	companys_check = len(companys)
+	cursor.close()
 
 	context = {
 		"companys": companys,
