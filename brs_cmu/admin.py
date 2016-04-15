@@ -4,62 +4,51 @@ from .models import *
 # Register your models here.
 
 class Bus_company_Admin(admin.ModelAdmin):
-	#list_display = ["company_name", "bus_id", "origin", "destination", "platform", "date", "price"]
-	#list_display_links = ["company_name", "bus_id", "origin", "destination"]
 	class Meta:
 		model = Bus_company
 
 class Bus_Admin(admin.ModelAdmin):
-	#list_display = ["company_name", "bus_id", "origin", "destination", "platform", "date", "price"]
-	#list_display_links = ["company_name", "bus_id", "origin", "destination"]
+	list_display = ["bus_id", "seats", "company_name"]
 	class Meta:
 		model = Bus
 
 class Bus_schedule_Admin(admin.ModelAdmin):
-	#list_display = ["company_name", "bus_id", "origin", "destination", "platform", "date", "price"]
-	#list_display_links = ["company_name", "bus_id", "origin", "destination"]
+	list_display = ["bus_schedule_id", "bus_id", "platform_id_origin", "date_time_arrive", "platform_id_destination", "date_time_depart", "price"]
 	class Meta:
 		model = Bus_schedule
 
 class Province_Admin(admin.ModelAdmin):
-	#list_display = ["company_name", "bus_id", "origin", "destination", "platform", "date", "price"]
-	#list_display_links = ["company_name", "bus_id", "origin", "destination"]
+	list_display = ["province_id", "name"]
 	class Meta:
 		model = Province
 
 class Platform_Admin(admin.ModelAdmin):
-	#list_display = ["company_name", "bus_id", "origin", "destination", "platform", "date", "price"]
-	#list_display_links = ["company_name", "bus_id", "origin", "destination"]
+	list_display = ["platform_id", "name", "province_id"]
 	class Meta:
 		model = Platform
 
 class PhoneNo_Admin(admin.ModelAdmin):
-	#list_display = ["company_name", "bus_id", "origin", "destination", "platform", "date", "price"]
-	#list_display_links = ["company_name", "bus_id", "origin", "destination"]
+	list_display = ["phone_no", "company_name"]
 	class Meta:
 		model = PhoneNo
 
 class Passenger_Admin(admin.ModelAdmin):
-	#list_display = ["company_name", "bus_id", "origin", "destination", "platform", "date", "price"]
-	#list_display_links = ["company_name", "bus_id", "origin", "destination"]
+	list_display = ["id_card", "first_name", "last_name", "gender", "date_of_birth", "phone_number", "address","user_id"]
 	class Meta:
 		model = Passenger
 
 class booking_Admin(admin.ModelAdmin):
-	#list_display = ["company_name", "bus_id", "origin", "destination", "platform", "date", "price"]
-	#list_display_links = ["company_name", "bus_id", "origin", "destination"]
+	list_display = ["id_card", "bus_schedule_id"]
 	class Meta:
 		model = booking
 
 class Driver_Admin(admin.ModelAdmin):
-	#list_display = ["company_name", "bus_id", "origin", "destination", "platform", "date", "price"]
-	#list_display_links = ["company_name", "bus_id", "origin", "destination"]
+	list_display = ["id_card", "first_name", "last_name", "gender", "date_of_birth", "license", "experience"]
 	class Meta:
 		model = Driver
 
 class Drive_Admin(admin.ModelAdmin):
-	#list_display = ["company_name", "bus_id", "origin", "destination", "platform", "date", "price"]
-	#list_display_links = ["company_name", "bus_id", "origin", "destination"]
+	list_display = ["id_card", "bus_id"]
 	class Meta:
 		model = Drive
 

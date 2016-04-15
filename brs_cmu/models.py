@@ -36,7 +36,7 @@ class Province(models.Model):
 	name = models.CharField(max_length=15)
 
 	def __unicode__(self):
-		return self.province_id
+		return self.name
 
 class Platform(models.Model):
 	platform_id = models.CharField(max_length=10, primary_key=True)
@@ -44,7 +44,7 @@ class Platform(models.Model):
 	province_id = models.ForeignKey(Province, default=1)
 
 	def __unicode__(self):
-		return self.platform_id
+		return self.province_id.name
 
 
 class Bus_schedule(models.Model):
@@ -55,6 +55,9 @@ class Bus_schedule(models.Model):
 	platform_id_destination = models.ForeignKey(Platform, related_name='depart', default=1)
 	date_time_depart = models.DateTimeField()
 	price = models.IntegerField()
+
+	class Meta:
+		unique_together = ('bus_schedule_id', 'bus_id')
 
 	def __unicode__(self):
 		return self.bus_schedule_id
