@@ -30,7 +30,6 @@ def home(request):
 
 	origin=None
 	destination=None
-	to=0
 
 	
 	# Origin
@@ -54,7 +53,6 @@ def home(request):
 		destinations = namedtuplefetchall(cursor)
 		destinations_check = len(destinations)
 		cursor.close()
-		to=1
 
 	# # bus status
 	# sql = "SELECT * FROM bus_bus"
@@ -71,7 +69,6 @@ def home(request):
 		bus_schedules = namedtuplefetchall(cursor)
 		bus_schedules_check = len(bus_schedules)
 		cursor.close()
-		to=0
 
 
 		
@@ -84,8 +81,6 @@ def home(request):
 		"destinations_check":destinations_check,
 		"bus_schedules":bus_schedules,
 		"bus_schedules_check":bus_schedules_check,
-		"to":to,
-		#"bus":bus,
 	}
 	return render(request, "home.html", context)
 
