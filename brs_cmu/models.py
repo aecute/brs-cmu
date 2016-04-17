@@ -57,7 +57,7 @@ class Bus_schedule(models.Model):
 	price = models.IntegerField()
 
 	class Meta:
-		unique_together = ('bus_schedule_id', 'bus_id')
+		unique_together = ('bus_id', 'platform_id_origin','date_time_arrive','platform_id_destination','date_time_depart')
 
 	def __unicode__(self):
 		return self.bus_schedule_id

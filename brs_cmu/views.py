@@ -141,16 +141,34 @@ def drivers(request):
 @login_required(login_url='/login/')
 def companys(request):
 
-	sql="SELECT DISTINCT c.name company,COUNT(bus_id) amount_bus,phone_no FROM brs_cmu_bus b JOIN brs_cmu_bus_company c ON c.name = b.company_name_id JOIN brs_cmu_phoneno p ON p.company_name_id = c.name GROUP BY c.name,phone_no ORDER BY c.name ASC"
+	#sql="SELECT DISTINCT c.name company,COUNT(bus_id) amount_bus,phone_no FROM brs_cmu_bus b JOIN brs_cmu_bus_company c ON c.name = b.company_name_id JOIN brs_cmu_phoneno p ON p.company_name_id = c.name GROUP BY c.name,phone_no ORDER BY c.name ASC"
+	sql="select name from brs_cmu_bus_company"
 	cursor = connection.cursor()
 	cursor.execute(sql)
-	companys = namedtuplefetchall(cursor)
-	companys_check = len(companys)
+	companys_name = namedtuplefetchall(cursor)
+	companys_name_check = len(companys_name)
 	cursor.close()
 
+	companys_phones=None
+	companys_phones_check=0
+	company=None
+
+
+	if request.POST:
+		company = request.POST.get('company')
+		sql="select phone_no from brs_cmu_phoneno where company_name_id='%s'"%(company)
+		cursor = connection.cursor()
+		cursor.execute(sql)
+		companys_phones = namedtuplefetchall(cursor)
+		companys_phones_check = len(companys_phones)
+		cursor.close()
+
 	context = {
-		"companys": companys,
-		"companys_check":companys_check,
+		"company":company,
+		"companys_name": companys_name,
+		"companys_name_check":companys_name_check,
+		"companys_phones": companys_phones,
+		"companys_phones_check":companys_phones_check,
 	}
 	return render(request, "companys.html", context)
 
