@@ -38,7 +38,7 @@ class Passenger_Admin(admin.ModelAdmin):
 		model = Passenger
 
 class booking_Admin(admin.ModelAdmin):
-	list_display = ["id_card", "bus_schedule_id"]
+	list_display = ["id_card", "bus_schedule_id","seat_no"]
 	class Meta:
 		model = booking
 

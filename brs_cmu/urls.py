@@ -9,6 +9,7 @@ from .views import (
 	ticket,
 	drivers,
 	companys,
+	details,
 	)
 
 urlpatterns = [
@@ -18,5 +19,6 @@ urlpatterns = [
     url(r'^register/$', register), 
     url(r'^ticket/(?P<id>\w+)/$', ticket, name="ticket"),
     url(r'^drivers/$', drivers), 
-    url(r'^companys/$', companys), 
+    url(r'^companys/$', companys),
+    url(r'^details/$', details), 
 ]

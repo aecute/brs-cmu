@@ -82,6 +82,7 @@ class Passenger(models.Model):
 class booking(models.Model):
 	id_card = models.ForeignKey(Passenger, default=1)
 	bus_schedule_id = models.ForeignKey(Bus_schedule, default=1)
+	seat_no = models.IntegerField(default=0)
 
 	def __unicode__(self):
 		return self.id_card.id_card

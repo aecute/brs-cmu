@@ -127,19 +127,19 @@
       {% else %}
 
       <div class="table-responsive"> 
-        <table  class="table table-hover">
+        <table  class="table table-hover text-center">
           <tr>
-            <th>Origins</th>
-            <th>Origins Platform</th>
-            <th>Date time Arrive</th>
-            <th>Destination</th>
-            <th>Destination Platform</th>
-            <th>Date time Depart</th>
-            <th>Bus ID</th>
-            <th>Company name</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Tickets</th>
+            <th class="text-center">Origins</th>
+            <th class="text-center">Origins Platform</th>
+            <th class="text-center">Date time Arrive</th>
+            <th class="text-center">Destination</th>
+            <th class="text-center">Destination Platform</th>
+            <th class="text-center">Date time Depart</th>
+            <th class="text-center">Bus ID</th>
+            <th class="text-center">Company name</th>
+            <th class="text-center">Price</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Tickets</th>
           </tr>
 
 
@@ -157,10 +157,10 @@
             <td> {{ bus_schedule.price }} </td>
 
             {% if bus_schedule.booking == bus_schedule.seats %}
-            <td class="text-danger"> Full </td>
+            <td><a href="#" data-toggle="tooltip" title="{{ bus_schedule.booking  }} / {{ bus_schedule.seats }}" class="text-danger"> Full </a></td>
             <td class="text-danger"><button type="button" class="btn btn-warning disabled">BUY</button></td>
             {% else %}
-            <td class="text-success"> Available </td>
+            <td> <a href="#" data-toggle="tooltip" title="{{ bus_schedule.booking  }} / {{ bus_schedule.seats }}" class="text-success"> Available </a></td>
             <td class="text-danger">
               <a href="/ticket/{{ bus_schedule.bus_schedule_id }}" class="btn btn-warning" role="button">BUY</a></td>
               {% endif %}

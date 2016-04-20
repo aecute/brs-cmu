@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Driver | {{ block.super }} {% endblock %}
+
+<style>
+  {% block style %}
+  body
+  {
+    background: url(http://randomwallpapers.net/compass-old-1920x1080-wallpaper182347.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+  {% endblock %}
+</style>
+
+{% block menu %}
+<li><a href="/">Reserve</a></li>
+<li><a href="/drivers">Drivers Information</a></li>
+<li><a href="/companys">Company Information</a></li>
+{% endblock %}
+
+{% block user %}<li class="active"><a href="/details">Welcome, {{ user.username }}</a></li>{% endblock %}
+
+{% block content %}
+
+<br><br><br><br><br><br>
+
+<div class="panel panel-warning">
+  <div class="panel-heading">Booking Details </div>
+  <div class="panel-body">
+
+
+    {% if details_check == 0 %}
+
+    <div class="alert alert-danger">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Fail!</strong> Not booking yet.
+    </div>
+
+    {% else %}
+
+
+    <div class="table-responsive"> 
+      <table class="table table-hover text-center">
+        <tr>
+          <th class="text-center">Schedule ID</th>
+          <th class="text-center">Origins</th>
+          <th class="text-center">Origins Platform</th>
+          <th class="text-center">Date time Arrive</th>
+          <th class="text-center">Destination</th>
+          <th class="text-center">Destination Platform</th>
+          <th class="text-center">Date time Depart</th>
+          <th class="text-center">Bus ID</th>
+          <th class="text-center">Company name</th>
+          <th class="text-center">Price</th>
+          <th class="text-center">Booking</th>
+        </tr>
+
+        {% for d in details %}
+
+        <tr>
+          <td> {{ d.bus_schedule_id }} </td>
+          <td> {{ d.ori_pr }} </td>
+          <td> {{ d.ori_pl }} </td>
+          <td> {{ d.date_time_arrive }} </td>
+          <td> {{ d.des_pr }} </td>
+          <td> {{ d.des_pl }} </td>
+          <td>  {{ d.date_time_depart }} </td>
+          <td>  {{ d.bus_id }} </td>
+          <td>  {{ d.company }} </td>
+          <td> {{ d.price }} </td>
+          <td> {{ d.booking }} </td>
+        </tr>
+
+        {% endfor %}
+
+      </table>
+    </div>
+
+    {% endif %}
+
+
+  </div>
+</div>
+
+
+
+{% endblock %}
+
+
+<!-- class Driver(models.Model):
+  idetification_number = models.CharField(max_length=13, primary_key=True)
+  name = models.CharField(max_length=40)
+  gender = models.CharField(max_length=10)
+  date_of_birth = models.DateField()
+  license = models.CharField(max_length=20)
+  experience = models.IntegerField()
+
+  bus_id = models.ForeignKey(Bus, default=1)
+-->
