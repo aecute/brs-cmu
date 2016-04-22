@@ -107,7 +107,6 @@ def ticket(request, id=None):
 	#print seat
 
 
-
 	sql="SELECT *,EXTRACT(YEAR FROM age(date_of_birth)) AS age FROM brs_cmu_passenger WHERE user_id_id=%s" %(request.user.id)
 	#print sql
 	cursor = connection.cursor()
