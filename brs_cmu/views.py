@@ -87,26 +87,14 @@ def home(request):
 @login_required(login_url='/login/')
 def ticket(request, id=None):
 
+	#path
 	sql="SELECT pr.name ori_pr, pl.name ori_pl, date_time_arrive ,pr2.name des_pr, pl2.name des_pl, date_time_depart, bus_id, bc.name company, price FROM brs_cmu_bus_schedule s JOIN brs_cmu_platform pl ON pl.platform_id = s.platform_id_origin_id JOIN brs_cmu_province pr ON pr.province_id = pl.province_id_id JOIN brs_cmu_platform pl2 ON pl2.platform_id = s.platform_id_destination_id JOIN brs_cmu_province pr2 ON pr2.province_id = pl2.province_id_id JOIN brs_cmu_bus b ON b.bus_id=s.bus_id_id JOIN brs_cmu_bus_company bc ON bc.name=b.company_name_id where s.bus_schedule_id='%s'" %(id)
 	cursor = connection.cursor()
 	cursor.execute(sql)
 	path = namedtuplefetchall(cursor)
 	cursor.close()
 
-	#seat_no
-	sql="SELECT COUNT(bus_schedule_id_id)+1 seat_no from brs_cmu_booking where bus_schedule_id_id='%s'" %(id)
-	cursor = connection.cursor()
-	cursor.execute(sql)
-	seat_no = namedtuplefetchall(cursor)
-	cursor.close()
-
-	seat=None
-	#get value
-	for s in seat_no:
-		seat=s.seat_no
-	#print seat
-
-
+	#user
 	sql="SELECT *,EXTRACT(YEAR FROM age(date_of_birth)) AS age FROM brs_cmu_passenger WHERE user_id_id=%s" %(request.user.id)
 	#print sql
 	cursor = connection.cursor()
@@ -122,7 +110,7 @@ def ticket(request, id=None):
 	#print id_card
 
 	if request.POST:
-	 	sql="INSERT INTO brs_cmu_booking (bus_schedule_id_id,id_card_id,seat_no) VALUES ('%s', '%s','%s');" %(id,id_card,seat)
+	 	sql="INSERT INTO brs_cmu_booking (bus_schedule_id_id,id_card_id) VALUES ('%s', '%s');" %(id,id_card)
 	 	cursor = connection.cursor()
 		cursor.execute(sql)
 		cursor.close()
@@ -134,7 +122,6 @@ def ticket(request, id=None):
 		"id": id,
 		"path": path,
 		"users": users,
-		"seat_no": seat_no,
 	}
 	return render(request, "ticket.html", context)
 
@@ -189,7 +176,7 @@ def companys(request):
 	return render(request, "companys.html", context)
 
 @login_required(login_url='/login/')
-def details(request):
+def details(request, sid=None):
 
 	sql="SELECT s.bus_schedule_id ,pr.name ori_pr, pl.name ori_pl, date_time_arrive ,pr2.name des_pr, pl2.name des_pl, date_time_depart, bus_id, bc.name company, price, COUNT(s.bus_schedule_id) as booking FROM brs_cmu_bus_schedule s JOIN brs_cmu_platform pl ON pl.platform_id = s.platform_id_origin_id JOIN brs_cmu_province pr ON pr.province_id = pl.province_id_id JOIN brs_cmu_platform pl2 ON pl2.platform_id = s.platform_id_destination_id JOIN brs_cmu_province pr2 ON pr2.province_id = pl2.province_id_id JOIN brs_cmu_bus b ON b.bus_id=s.bus_id_id JOIN brs_cmu_bus_company bc ON bc.name=b.company_name_id join brs_cmu_booking bo on bo.bus_schedule_id_id=s.bus_schedule_id join brs_cmu_passenger p on bo.id_card_id=p.id_card join auth_user u on p.user_id_id=u.id where u.id='%s' group by s.bus_schedule_id,pr.name,pl.name,pr2.name,pl2.name,b.bus_id,bc.name"%(request.user.id)
 	cursor = connection.cursor()
@@ -197,6 +184,30 @@ def details(request):
 	details = namedtuplefetchall(cursor)
 	details_check = len(details)
 	cursor.close()
+
+	#user
+	sql="SELECT id_card FROM brs_cmu_passenger WHERE user_id_id=%s" %(request.user.id)
+	cursor = connection.cursor()
+	cursor.execute(sql)
+	users = namedtuplefetchall(cursor)
+	cursor.close()
+
+	id_card=None
+	#select id_card
+	for u in users:
+		id_card=u.id_card
+
+	
+
+	if request.method == 'GET':
+		#print sid
+		#print id_card
+		sql="DELETE FROM brs_cmu_booking WHERE bus_schedule_id_id='%s' AND id_card_id='%s'" %(sid,id_card)
+	 	cursor = connection.cursor()
+		cursor.execute(sql)
+		cursor.close()
+		if sid != None:
+			return HttpResponseRedirect("/details")
 
 
 	context = {

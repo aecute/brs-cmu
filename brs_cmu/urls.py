@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^drivers/$', drivers), 
     url(r'^companys/$', companys),
     url(r'^details/$', details), 
+    url(r'^details/(?P<sid>\w+)/$', details),
 ]

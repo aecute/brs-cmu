@@ -56,12 +56,16 @@
           <th class="text-center">Company name</th>
           <th class="text-center">Price</th>
           <th class="text-center">Booking</th>
+          <th class="text-center">Action</th>
         </tr>
 
+        
+
         {% for d in details %}
+       
 
         <tr>
-          <td> {{ d.bus_schedule_id }} </td>
+          <td name="sid"> {{ d.bus_schedule_id }} </td>
           <td> {{ d.ori_pr }} </td>
           <td> {{ d.ori_pl }} </td>
           <td> {{ d.date_time_arrive }} </td>
@@ -72,9 +76,13 @@
           <td>  {{ d.company }} </td>
           <td> {{ d.price }} </td>
           <td> {{ d.booking }} </td>
+          <td>  <a href="/details/{{ d.bus_schedule_id }}" class="btn btn-danger" role="button" name="cancel">Cancel</a> </td> 
         </tr>
 
+        
         {% endfor %}
+
+        
 
       </table>
     </div>

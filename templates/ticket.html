@@ -24,7 +24,7 @@
 
 
 <div class="panel panel-success">
-  <div class="panel-heading">Buy Ticket | Bus Schedule Number = {{ id }}</div>
+  <div class="panel-heading">Buy Ticket</div>
   <div class="panel-body">
 
 
@@ -50,11 +50,9 @@
         <div class="panel panel-success">
           <div class="panel-body">
             <p><strong>TICKETS & PAYMENT</strong></p>
+            <p>Bus Schedule ID : {{ id }}</p>
             {% for p in path %}
             <p> Bus ID : {{ p.bus_id }} </p>
-            {% for s in seat_no%}
-            <p name="seat_no"> Seat No : {{ s.seat_no }}</p>
-            {% endfor %}
             <p> Company Name : {{ p.company }} </p>
             <p> Price : {{ p.price }} </p>
             {% endfor %}
@@ -96,6 +94,7 @@
   <div class="col-sm-12 text-center">
     <form method="post">{% csrf_token %}
       <button type="submit" class="btn btn-success" onclick="myFunction()">CONFIRM</button>
+      <a href="/" class="btn btn-success">Cancel</a>
     </form>
   </div>
 </div>

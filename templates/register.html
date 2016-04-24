@@ -13,10 +13,19 @@
 	{{ user_form|crispy }}
 	{{ detail_form|crispy }}
 
-<input type='submit' value='Register'  class="btn btn-primary"></input>
+
+	<div class="row">
+		<div class="col-sm-12 text-center">
+			<input type='submit' value='Register'  class="btn btn-primary"></input>
+			<input type='reset' value='Reset'  class="btn btn-primary"></input>
+			<a href="/" class="btn btn-primary">Cancel</a>
+		</div>
+	</div>
+
 
 </form>
 
+<br><br>
 
 
 {% endblock %}
