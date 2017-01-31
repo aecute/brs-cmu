@@ -1,2 +1,2 @@
-staticfiles/* linguist-vendored
+staticfiles/admin/js/* linguist-vendored
 jquery.js linguist-vendored=false
